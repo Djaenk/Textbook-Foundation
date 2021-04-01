@@ -98,7 +98,12 @@ module.exports = function routes(app, logger) {
     });
   });
 
+<<<<<<< HEAD
    // dd
+=======
+   
+   /*
+>>>>>>> 4d4b810 (2 post routes)
    app.post('/api/users', (req, res) => {
     var firstName = req.body.firstName;
     var lastName = req.body.lastName;
@@ -131,14 +136,80 @@ module.exports = function routes(app, logger) {
       }
     });
   });
+  */
 
+  // api/users?username={userName}&password={password}&firstName={firstName}&lastName={lastName}&phoneNumber={phoneNumber}&email={email}&private={private}
+  // Confirmed working
+  app.post('/api/users', (req, res) => {
+    var username = req.param('username');
+    var password = req.param('password');
+    var firstName = req.param('firstName');
+    var lastName = req.param('lastName')
+    var phoneNumber = req.param('phoneNumber');
+    var email = req.param('email');
+    var private = req.param('private');
+    let joinDate = new Date();
 
+    console.log(req.body);
+    // obtain a connection from our pool of connections
+    pool.getConnection(function (err, connection){
+      if(err){
+        // if there is an issue obtaining a connection, release the connection instance and log the error
+        logger.error('Problem obtaining MySQL connection',err)
+        res.status(400).send('Problem obtaining MySQL connection'); 
+      } else {
+        // if there is no issue obtaining a connection, execute query and release connection
+        connection.query('INSERT INTO users(firstName, lastName, phoneNumber, email, username, password, private, joinDate) VALUES(?,?,?,?,?,?,?,?) ', [firstName, lastName, phoneNumber, email, username, password, private, joinDate], function (err, rows, fields) {
+          connection.release();
+          if (err) {
+            // if there is an error with the query, log the error
+            logger.error("Problem inserting into test table: \n", err);
+            res.status(400).send('Problem inserting into table'); 
+          } else {
+            res.status(200).send(`added ${req.body} to the table!`);
+          }
+        });
+      }
+    });
+  });
 
+  // api/books/{ISBN}?author={author}&publisher={publisher}&publicationDate={publicationDate}&condition={condition}&donorID={donorID)&borrowerID={borrowerID}
+  // Does this make it all optional or will this query fail if not all fields are provided?
+  // Works when all fields are filled out
+  app.post('/api/books/:ISBN/', (req, res) => {
+    var ISBN = req.param('ISBN');
+    var author = req.param('author');
+    var publisher = req.param('publisher');
+    var publicationDate = req.param('publicationDate');
+    var condition = req.param('condition'); // Naming here - in database it's bookCondition
+    var donorID = req.param('donorID');
+    var borrowerID = req.param('borrowerID');
+    var publicationDate = req.param('publicationDate');
+    var title = req.body.title;
+    let donationDate = new Date(); // Should this get current datetime or is this a date that's manually created?
 
-
-
-
-
+    console.log(req.body);
+    // obtain a connection from our pool of connections
+    pool.getConnection(function (err, connection){
+      if(err) {
+        // if there is an issue obtaining a connection, release the connection instance and log the error
+        logger.error('Problem obtaining MySQL connection', err)
+        res.status(400).send('Problem obtaining MySQL connection'); 
+      } else {
+        // if there is no issue obtaining a connection, execute query and release connection
+        connection.query('INSERT INTO books (donorID, ISBN, title, author, publisher, publicationDate, bookCondition, borrowerID, donationDate) VALUES (?,?,?,?,?,?,?,?,?)', [donorID, ISBN, title, author, publisher, publicationDate, condition, borrowerID, donationDate], function (err, rows, fields) {
+          connection.release();
+          if (err) {
+            // if there is an error with the query, log the error
+            logger.error("Problem inserting into test table: \n", err);
+            res.status(400).send('Problem inserting into table'); 
+          } else {
+            res.status(200).send(`added ${req.body} to the table!`);
+          }
+        });
+      }
+    });
+  });
 
 
 
