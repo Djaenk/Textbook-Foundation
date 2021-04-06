@@ -7,6 +7,35 @@ use TextbookFoundation;
 show tables;
 
 select * from users;
+select * from wishlist;
+
+
+
+select * from books;
+select * from books where title = (?) & ISBN = (?);
+select * from wishlist;
+select * from books where COUNT(ISBN) > (?);
+
+select * from books where donorID = (?);
+select * from books where borrowerID = (?);
+select * from users where userID = (?);
+
+select * from favorites right join books 
+	on favorites.ISBN = books.ISBN
+	where favorites.userID = (?);
+select * from wishlist right join books 
+	on wishlist.ISBN = books.ISBN
+	where wishlist.userID = (?);
+select * from ratings where bookID = (?);
+
+
+
+
+
+
+
+
+
 
 INSERT INTO users(firstName, lastName, phoneNumber, email, username, password, private, joinDate) VALUES ('colin', 'weil', '100000000', 'eamil', 'cweil', 'weil', true, '2020-02-02');
 
