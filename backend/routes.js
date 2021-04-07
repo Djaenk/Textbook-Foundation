@@ -194,7 +194,6 @@ module.exports = function routes(app, logger) {
   app.get('/api/search', (req, res) => {
     var title = req.param('Title');
     var isbn = req.param('isbn');
-    console.log(title, isbn)
     // obtain a connection from our pool of connections
     pool.getConnection(function (err, connection){
       if(err){
@@ -204,6 +203,34 @@ module.exports = function routes(app, logger) {
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
         connection.query('select * from books where Title = (?) OR ISBN = (?)', [title, isbn], function (err, rows, fields) {
+          connection.release();
+          if (err) {
+            // if there is an error with the query, log the error
+            logger.error("Problem getting from table: \n", err);
+            res.status(400).send('Problem getting table'); 
+          } else {
+            console.log(rows)
+            res.status(200).json({
+              "data": rows
+            });
+          }
+        });
+      }
+    });
+  });
+
+  // GET all wishlist books
+  // /api/books/scarce
+  app.get('/api/books/scarce', (req, res) => {
+    // obtain a connection from our pool of connections
+    pool.getConnection(function (err, connection){
+      if(err){
+        // if there is an issue obtaining a connection, release the connection instance and log the error
+        logger.error('Problem obtaining MySQL connection',err)
+        res.status(400).send('Problem obtaining MySQL connection'); 
+      } else {
+        // if there is no issue obtaining a connection, execute query and release connection
+        connection.query('select * from wishlist;', function (err, rows, fields) {
           connection.release();
           if (err) {
             // if there is an error with the query, log the error
