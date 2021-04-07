@@ -309,6 +309,37 @@ module.exports = function routes(app, logger) {
     });
   });
 
+  // GET all books being borrowed by a user
+  // /api/users/borrows/{userID}
+  app.get('/api/users/borrows', (req, res) => {
+    var userID = req.param('userID');
+    // obtain a connection from our pool of connections
+    pool.getConnection(function (err, connection){
+      if(err){
+        // if there is an issue obtaining a connection, release the connection instance and log the error
+        logger.error('Problem obtaining MySQL connection',err)
+        res.status(400).send('Problem obtaining MySQL connection'); 
+      } else {
+        // if there is no issue obtaining a connection, execute query and release connection
+        connection.query('select * from books where borrowerID = (?)', userID, function (err, rows, fields) {
+          connection.release();
+          if (err) {
+            // if there is an error with the query, log the error
+            logger.error("Problem getting from table: \n", err);
+            res.status(400).send('Problem getting table'); 
+          } else {
+            console.log(rows)
+            res.status(200).json({
+              "data": rows
+            });
+          }
+        });
+      }
+    });
+  });
+
+  
+
 
 
 
