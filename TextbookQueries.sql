@@ -6,10 +6,11 @@ use TextbookFoundation;
 
 show tables;
 
+
 select * from users;
 select * from wishlist;
 
-select * from books where ISBN = 3 || Title = '';
+select * from books GROUP BY ISBN HAVING COUNT(ISBN) > 0;
 
 select * from books;
 select * from books where bookID = (?);

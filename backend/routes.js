@@ -98,7 +98,9 @@ module.exports = function routes(app, logger) {
     });
   });
 
-   // dd
+   // POST a user
+   // api/users?username={userName}&password={password}&firstName={firstName}&lastName={lastName}
+   //         &phoneNumber={phoneNumber}&email={email}&private={private}
    app.post('/api/users', (req, res) => {
     var firstName = req.body.firstName;
     var lastName = req.body.lastName;
@@ -189,7 +191,7 @@ module.exports = function routes(app, logger) {
     });
   });
 
-   // GET book by ISBN or title
+  // GET book by ISBN or title
   // /api/books/search?title={title}&isbn={ISBN}
   app.get('/api/search', (req, res) => {
     var title = req.param('Title');
@@ -247,8 +249,65 @@ module.exports = function routes(app, logger) {
     });
   });
 
+  // NOT WORKING
+  // GET books by ISBN that have more than certain count
+  // /api/books/excess?quantity={quantity}
+  app.get('/api/books/excess', (req, res) => {
+    var quantity = req.param('quantity');
+    // obtain a connection from our pool of connections
+    pool.getConnection(function (err, connection){
+      if(err){
+        // if there is an issue obtaining a connection, release the connection instance and log the error
+        logger.error('Problem obtaining MySQL connection',err)
+        res.status(400).send('Problem obtaining MySQL connection'); 
+      } else {
+        // if there is no issue obtaining a connection, execute query and release connection
+        connection.query('select * from books where COUNT(ISBN) > (?)', quantity, function (err, rows, fields) {
+          connection.release();
+          if (err) {
+            // if there is an error with the query, log the error
+            logger.error("Problem getting from table: \n", err);
+            res.status(400).send('Problem getting table'); 
+          } else {
+            console.log(rows)
+            res.status(200).json({
+              "data": rows
+            });
+          }
+        });
+      }
+    });
+  });
 
 
+  // GET books donated by a user
+  // /api/users/donations/{userID}
+  app.get('/api/users/donations', (req, res) => {
+    var userID = req.param('userID');
+    // obtain a connection from our pool of connections
+    pool.getConnection(function (err, connection){
+      if(err){
+        // if there is an issue obtaining a connection, release the connection instance and log the error
+        logger.error('Problem obtaining MySQL connection',err)
+        res.status(400).send('Problem obtaining MySQL connection'); 
+      } else {
+        // if there is no issue obtaining a connection, execute query and release connection
+        connection.query('select * from books where donorID = (?)', userID, function (err, rows, fields) {
+          connection.release();
+          if (err) {
+            // if there is an error with the query, log the error
+            logger.error("Problem getting from table: \n", err);
+            res.status(400).send('Problem getting table'); 
+          } else {
+            console.log(rows)
+            res.status(200).json({
+              "data": rows
+            });
+          }
+        });
+      }
+    });
+  });
 
 
 
