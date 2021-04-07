@@ -9,10 +9,11 @@ show tables;
 select * from users;
 select * from wishlist;
 
-
+select * from books where ISBN = 3 || Title = '';
 
 select * from books;
-select * from books where title = (?) & ISBN = (?);
+select * from books where bookID = (?);
+select * from books where title = (?) | ISBN = (?);
 select * from wishlist;
 select * from books where COUNT(ISBN) > (?);
 
