@@ -22,16 +22,21 @@ select * from books where donorID = (?);
 select * from books where borrowerID = (?);
 select * from users where userID = (?);
 
-select * from favorites right join books 
+select books.* from favorites join books 
 	on favorites.ISBN = books.ISBN
 	where favorites.userID = (?);
+    
 select * from wishlist right join books 
 	on wishlist.ISBN = books.ISBN
 	where wishlist.userID = (?);
-select * from ratings where bookID = (?);
-
-
-
+    
+select ratings.* from ratings join books
+	on books.bookID = ratings.bookID
+	where books.ISBN = (?);
+    
+select ISBN, ratings.* from ratings join books
+	on books.bookID = ratings.bookID
+	where books.ISBN = 3;
 
 
 
