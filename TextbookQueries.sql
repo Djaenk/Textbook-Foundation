@@ -10,7 +10,20 @@ show tables;
 select * from users;
 select * from wishlist;
 
-select * from books GROUP BY ISBN HAVING COUNT(ISBN) > 0;
+# need to figure this out
+select ISBN, COUNT(ISBN) from books GROUP BY ISBN HAVING COUNT(ISBN) > 0;
+
+select * from books
+where EXISTS
+(
+	select ISBN
+    from books
+    where COUNT(ISBN) > 0
+);
+
+
+
+
 
 select * from books;
 select * from books where bookID = (?);
@@ -30,7 +43,7 @@ select * from wishlist right join books
 	on wishlist.ISBN = books.ISBN
 	where wishlist.userID = (?);
     
-select ratings.* from ratings join books
+select ISBN,ratings.* from ratings join books
 	on books.bookID = ratings.bookID
 	where books.ISBN = (?);
     
