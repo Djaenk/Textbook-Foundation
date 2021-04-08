@@ -6,7 +6,56 @@ use TextbookFoundation;
 
 show tables;
 
+
 select * from users;
+select * from wishlist;
+
+# need to figure this out
+select ISBN, COUNT(ISBN) from books GROUP BY ISBN HAVING COUNT(ISBN) > 0;
+
+select * from books
+where EXISTS
+(
+	select ISBN
+    from books
+    where COUNT(ISBN) > 0
+);
+
+
+
+
+
+select * from books;
+select * from books where bookID = (?);
+select * from books where title = (?) | ISBN = (?);
+select * from wishlist;
+select * from books where COUNT(ISBN) > (?);
+
+select * from books where donorID = (?);
+select * from books where borrowerID = (?);
+select * from users where userID = (?);
+
+select books.* from favorites join books 
+	on favorites.ISBN = books.ISBN
+	where favorites.userID = (?);
+    
+select * from wishlist right join books 
+	on wishlist.ISBN = books.ISBN
+	where wishlist.userID = (?);
+    
+select ISBN,ratings.* from ratings join books
+	on books.bookID = ratings.bookID
+	where books.ISBN = (?);
+    
+select ISBN, ratings.* from ratings join books
+	on books.bookID = ratings.bookID
+	where books.ISBN = 3;
+
+
+
+
+
+
 
 INSERT INTO users(firstName, lastName, phoneNumber, email, username, password, private, joinDate) VALUES ('colin', 'weil', '100000000', 'eamil', 'cweil', 'weil', true, '2020-02-02');
 
