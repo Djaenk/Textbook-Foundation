@@ -1,0 +1,9 @@
+.line{
+	border: 1px solid lightgray;
+	width: 100%;
+	margin: 30px;
+}
+
+.star::after{
+	content: " \2605";
+}
