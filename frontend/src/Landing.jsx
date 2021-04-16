@@ -44,12 +44,17 @@ export class Landing extends React.Component {
         }
         else {
             this.setState({ invalidCred: true });
+
+            //TEST - BYPASS LOGIN
+            this.setState({ invalidCred: false });
+            sessionStorage.setItem("userId", 1);
+            //TEST - BYPASS LOGIN
         }
     }
 
     render() {
         if (sessionStorage.getItem("isAuthenticated") === "true") {
-            return <Redirect to="/" />;
+            return <Redirect to="/home" />;
         }
         return (
             <>
