@@ -770,11 +770,166 @@ module.exports = function routes(app, logger) {
     });
   });
 
+//api/ratings/{bookID}
+app.delete('/api/books/:bookID', (req, res) => {
+  var bookID = req.params.bookID;
+  
+
+  //console.log(req.body);
+
+  pool.getConnection(function (err, connection){
+    if(err){
+      // if there is an issue obtaining a connection, release the connection instance and log the error
+      logger.error('Problem obtaining MySQL connection',err)
+      res.status(400).send('Problem obtaining MySQL connection'); 
+    } else {
+      // if there is no issue obtaining a connection, execute query and release connection
+      connection.query(`
+      DELETE from books      
+      WHERE bookID = ${bookID}
+      `, function (err, rows, fields) {
+        connection.release();
+        if (err) {
+          // if there is an error with the query, log the error
+          logger.error("Problem inserting into test table: \n", err);
+          res.status(400).send('Problem inserting into table'); 
+        } else {
+          res.status(200).send(`Updated BookID: ${bookID} to Rating with borrowerID:${user} and rating:${rating}!`);
+        }
+      });
+    }
+  });
+});
 
 
+//api/users/{userID}
+app.delete('/api/books/:userID', (req, res) => {
+  var userID = req.params.userID;
+  
 
+  //console.log(req.body);
 
+  pool.getConnection(function (err, connection){
+    if(err){
+      // if there is an issue obtaining a connection, release the connection instance and log the error
+      logger.error('Problem obtaining MySQL connection',err)
+      res.status(400).send('Problem obtaining MySQL connection'); 
+    } else {
+      // if there is no issue obtaining a connection, execute query and release connection
+      connection.query(`
+      DELETE from users      
+      WHERE userID = ${userID}
+      `, function (err, rows, fields) {
+        connection.release();
+        if (err) {
+          // if there is an error with the query, log the error
+          logger.error("Problem inserting into test table: \n", err);
+          res.status(400).send('Problem inserting into table'); 
+        } else {
+          res.status(200).send(`Updated BookID: ${bookID} to Rating with borrowerID:${user} and rating:${rating}!`);
+        }
+      });
+    }
+  });
+});
 
+//api/favorites/{ISBN}/?user={userID}
+app.delete('/api/favorites/:ISBN/?user={userID}', (req, res) => {
+  var ISBN = req.params.ISBN;
+  var userID = req.param('user');
+  
 
+  //console.log(req.body);
+
+  pool.getConnection(function (err, connection){
+    if(err){
+      // if there is an issue obtaining a connection, release the connection instance and log the error
+      logger.error('Problem obtaining MySQL connection',err)
+      res.status(400).send('Problem obtaining MySQL connection'); 
+    } else {
+      // if there is no issue obtaining a connection, execute query and release connection
+      connection.query(`
+      DELETE from favorites      
+      WHERE ISBN = ${ISBN} AND
+      userID = ${userID}
+      `, function (err, rows, fields) {
+        connection.release();
+        if (err) {
+          // if there is an error with the query, log the error
+          logger.error("Problem inserting into test table: \n", err);
+          res.status(400).send('Problem inserting into table'); 
+        } else {
+          res.status(200).send(`Updated BookID: ${bookID} to Rating with borrowerID:${user} and rating:${rating}!`);
+        }
+      });
+    }
+  });
+});
+
+//api/wishlist/{ISBN}/?user={userID}
+app.delete('/api/wishlist/:ISBN/?user={userID}', (req, res) => {
+  var ISBN = req.params.ISBN;
+  var userID = req.param('user');
+  
+
+  //console.log(req.body);
+
+  pool.getConnection(function (err, connection){
+    if(err){
+      // if there is an issue obtaining a connection, release the connection instance and log the error
+      logger.error('Problem obtaining MySQL connection',err)
+      res.status(400).send('Problem obtaining MySQL connection'); 
+    } else {
+      // if there is no issue obtaining a connection, execute query and release connection
+      connection.query(`
+      DELETE from wishlist      
+      WHERE ISBN = ${ISBN} AND
+      userID = ${userID}
+      `, function (err, rows, fields) {
+        connection.release();
+        if (err) {
+          // if there is an error with the query, log the error
+          logger.error("Problem inserting into test table: \n", err);
+          res.status(400).send('Problem inserting into table'); 
+        } else {
+          res.status(200).send(`Updated BookID: ${bookID} to Rating with borrowerID:${user} and rating:${rating}!`);
+        }
+      });
+    }
+  });
+});
+
+//api/ratings/{bookID}/?user={userID}
+app.delete('/api/ratings/:bookID/?borrower={borrowerID}', (req, res) => {
+  var bookID = req.params.bookID;
+  var borrowerID = req.param('borrower');
+  
+
+  //console.log(req.body);
+
+  pool.getConnection(function (err, connection){
+    if(err){
+      // if there is an issue obtaining a connection, release the connection instance and log the error
+      logger.error('Problem obtaining MySQL connection',err)
+      res.status(400).send('Problem obtaining MySQL connection'); 
+    } else {
+      // if there is no issue obtaining a connection, execute query and release connection
+      connection.query(`
+      DELETE from ratings      
+      WHERE bookID = ${bookID} AND
+      borrowerID = ${borrowerID}
+      `, function (err, rows, fields) {
+        connection.release();
+        if (err) {
+          // if there is an error with the query, log the error
+          logger.error("Problem inserting into test table: \n", err);
+          res.status(400).send('Problem inserting into table'); 
+        } else {
+          res.status(200).send(`Updated BookID: ${bookID} to Rating with borrowerID:${user} and rating:${rating}!`);
+        }
+      });
+    }
+  });
+});
 
 };
