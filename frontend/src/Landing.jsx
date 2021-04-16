@@ -2,6 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 // import './accounts.css';
 import Accounts from './api/accounts';
+import { Navigation } from './app/Navigation';
 
 export class Landing extends React.Component {
 
@@ -47,6 +48,7 @@ export class Landing extends React.Component {
 
             //TEST - BYPASS LOGIN
             this.setState({ invalidCred: false });
+            sessionStorage.setItem("isAuthenticated", "true");
             sessionStorage.setItem("userId", 1);
             //TEST - BYPASS LOGIN
         }
@@ -58,6 +60,7 @@ export class Landing extends React.Component {
         }
         return (
             <>
+            <Navigation />
                 <form id="account-form" className="col-sm-9 col-md-7 col-lg-4 mt-5 mx-auto border-0" onSubmit={ e => this.login(e) }>
                     <div className="text-center"> <img src={require('./images/textbookFoundation_logoBlack.png')} alt="" height="250" width="250"/></div><br></br>
                     <h1 className="text-center">Sign In</h1>

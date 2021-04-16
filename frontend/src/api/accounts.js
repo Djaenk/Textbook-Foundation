@@ -74,19 +74,6 @@ export class Accounts {
         });
     }
 
-    follow(followerId, followedId) {
-        return new Promise((resolve, reject) => {
-            axios.post(hostname + '/api/follows', { follower: followerId, followed: followedId })
-                .then(response => {
-                    resolve(response.data);
-                })
-                .catch(err => {
-                    error(err);
-                    resolve(undefined);
-                });
-        });
-    }
-
 }
 
 export default Accounts;

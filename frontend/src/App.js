@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import { Home } from './Home';
 import axios from 'axios';
-import {Navigation} from './Navigation'
 import Routes from './Routes';
 
 // React functional component
@@ -71,7 +69,6 @@ function App () {
 
   return (
     <>
-    <Navigation/>
     <Routes appProps={ [] } />
 
   </>
