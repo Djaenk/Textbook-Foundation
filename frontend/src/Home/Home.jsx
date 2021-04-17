@@ -1,7 +1,7 @@
 import React from 'react';
-import { Navigation } from './app/Navigation';
-import { BookTable } from './app/BookTable';
-import { AllBooksTable } from './app/AllBooksTable';
+import { Navigation } from '../app/Navigation';
+import { BookTable } from './BookTable';
+import { AllBooksTable } from './AllBooksTable';
 
 export const Home = props =>
 <>
