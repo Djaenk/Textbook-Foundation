@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch, BrowserRouter } from "react-router-dom";
-import { Home } from "./Home";
-import { Landing } from "./Landing";
+import { Home } from "./Home/Home";
+import { Landing } from "./Landing/Landing";
 // import { Login, Register } from "./Accounts";
 // import { Page404 } from "./App/Page404";
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { SearchIcon } from './Icons';
+import { SearchIcon } from '../app/Icons';
 
 export class AllBooksTable extends React.Component{
 	state = {
