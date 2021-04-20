@@ -7,7 +7,7 @@ export const Home = props =>
 <>
 	<Navigation/>
 
-	<div class="container-fluid mt-3">	
+	<div class="container-fluid mt-3">
 		<div class="row">
 			<div class="col">
 				<BookTable heading="Table" books={[{title: "title", isbn: "0123456789101", status: "borrowed", favorite: true}]}/>
