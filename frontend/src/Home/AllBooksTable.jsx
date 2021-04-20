@@ -1,39 +1,52 @@
 import React from 'react';
 import { SearchIcon } from '../app/Icons';
+import {StarFill, ArrowDownUp} from 'react-bootstrap-icons';
 
-export class AllBooksTable extends React.Component{
-	state = {
-		books: [],
-		favoritesOnly: false,
-	};
+export const AllBooksTable = props => {
+	let books = props.books;
+	const [field, setField] = React.useState(null);
+	const [asc, setAsc] = React.useState(true);
+	const [favorites, setFavorites] = React.useState(false);
 
-	
+	books.sort((a, b) => {
+		if (eval('a.' + field) < eval('b.' + field)){
+			return asc ? -1 : 1;
+		}
+		if (eval('a.' + field) > eval('b.' + field)){
+			return asc ? 1 : -1;
+		}
+		return 0;
+	})
 
-	render() {
-		return <>
-			<h3 class="text-left mx-3">All Books</h3>
-			<form class="form-inline">
-				<input name="search-input" class="form-control m-3" type="search" placeholder="Filter Books" aria-label="Search"/>
-				<input name="favorites-toggle" class="form-check-input" type="checkbox" aria-label="Favorites only"/>
-				<label for="favorites-toggle" class="form-check-label">Favorites only</label>
-			</form>
-			<table class="table table-sm text-left">
-				<thead class="thead-dark">
-					<th>Book Title</th>
-					<th>ISBN-13</th>
-					<th>Status</th>
-					<th></th>
-				</thead>
-				<tbody>
-					{this.state.books.map(book =>
-						<tr>
-							<td className={book.favorite ? "" : "star"}>{book.title}</td>
-							<td>{book.isbn}</td>
-							<td>{book.status}</td>
-						</tr>
-					)}
-				</tbody>
-			</table>
-		</>
-	}
+	return <>
+		<h3 className="text-left mx-3">All Books</h3>
+		<form className="form-inline">
+			<input name="search-input" className="form-control m-3" type="search" placeholder="Filter Books" aria-label="Search"/>
+			<input name="favorites-toggle" className="form-check-input" type="checkbox" aria-label="Favorites only"/>
+			<label htmlFor="favorites-toggle" className="form-check-label">Favorites only</label>
+		</form>
+		<table className="table table-sm text-left">
+			<thead className="thead-dark">
+				<tr>
+					<th>Book Title<button type="button" className="btn btn-dark pt-0 px-2 my-0 mx-2" onClick={() => (field === 'title' ? setAsc(asc => !asc) : setAsc(true), setField('title'))}><ArrowDownUp/></button></th>
+					<th>ISBN-13<button type="button" className="btn btn-dark pt-0 px-2 my-0 mx-2" onClick={() => (field === 'isbn' ? setAsc(asc => !asc) : setAsc(true), setField('isbn'))}><ArrowDownUp/></button></th>
+					<th>Status<button type="button" className="btn btn-dark pt-0 px-2 my-0 mx-2" onClick={() => (field === 'status' ? setAsc(asc => !asc) : setAsc(true), setField('status'))}><ArrowDownUp/></button></th>
+					<th>Rating<button type="button" className="btn btn-dark pt-0 px-2 my-0 mx-2" onClick={() => (field === 'rating' ? setAsc(asc => !asc) : setAsc(true), setField('rating'))}><ArrowDownUp/></button></th>
+				</tr>
+			</thead>
+			<tbody>
+				{books.map(book =>
+					<tr key={book.id}>
+						<td className={book.favorite ? "" : "star"}>{book.title}</td>
+						<td>{book.isbn}</td>
+						<td>{book.status}</td>
+						<td>{[...Array(book.rating).keys()].map(x =>
+								<StarFill key={x}/>
+							)}
+						</td>
+					</tr>
+				)}
+			</tbody>
+		</table>
+	</>
 }
