@@ -22,5 +22,18 @@ export class Books{
         })
     }
 
+    getBook(id) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${hostname}/api/books/${id}`)
+                .then(response => {
+                    resolve(response.data);
+                })
+                .catch(err => {
+                    console.error(err);
+                    reject(err);
+                });
+        })
+    }
+
 }
 export default Books;

@@ -237,7 +237,7 @@ module.exports = function routes(app, logger) {
 
   // GET a single book
   // /api/books/{bookID}
-  app.get('/api/books', (req, res) => {
+  app.get('/api/books/:id', (req, res) => {
     var bookID = req.param('bookID');
     // obtain a connection from our pool of connections
     pool.getConnection(function (err, connection){
@@ -247,7 +247,7 @@ module.exports = function routes(app, logger) {
         res.status(400).send('Problem obtaining MySQL connection'); 
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
-        connection.query('select * from books where bookID = (?)', bookID, function (err, rows, fields) {
+        connection.query(`select * from books where bookID = ${req.params.id}`, bookID, function (err, rows, fields) {
           connection.release();
           if (err) {
             // if there is an error with the query, log the error
@@ -413,7 +413,7 @@ module.exports = function routes(app, logger) {
 
   // GET all user information
   // /api/users/{userID}
-  app.get('/api/users', (req, res) => {
+  app.get('/api/users/:id', (req, res) => {
     var userID = req.param('userID');
     // obtain a connection from our pool of connections
     pool.getConnection(function (err, connection){
@@ -423,7 +423,7 @@ module.exports = function routes(app, logger) {
         res.status(400).send('Problem obtaining MySQL connection'); 
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
-        connection.query('select * from users where userID = (?)', userID, function (err, rows, fields) {
+        connection.query(`select * from users where userID = ${req.params.id}`, userID, function (err, rows, fields) {
           connection.release();
           if (err) {
             // if there is an error with the query, log the error

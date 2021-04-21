@@ -26,7 +26,7 @@ export class Accounts {
         return new Promise((resolve, reject) => {
             axios.get(hostname + '/api/users/' + id)
                 .then(response => {
-                    resolve(response.data[0]);
+                    resolve(response.data);
                 })
                 .catch(err => {
                     console.error(err);
