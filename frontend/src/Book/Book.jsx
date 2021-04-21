@@ -14,9 +14,12 @@ export const Book = props => {
 
 		if (!book) {
 			bookApi.getBook(id)
-			.then(x => {
-				setBook(x.data);
-			})
+			.then(x => setBook(x.data))
+		}
+
+		if (book && !donor) {
+			acctApi.getProfile(book[0].donorID)
+			.then(x => setDonor(x.data));
 		}
 	});
 	
@@ -27,14 +30,24 @@ export const Book = props => {
 		)}
 		{book && (
 		<div className="w-100 p-3">
-			<div className="bg-light border p-4">			
-				<h1>{book[0].Title}</h1>
-				{book[0].Author}<br/>
-				{book[0].ISBN}<br/>
-				{book[0].Publisher}<br/>
-				{book[0].publicationDate}<br/>
-				{book[0].donationDate}<br/>
+			<div className="bg-light border p-4 clearfix">
+				{donor && (<div className="border bg-secondary text-white text-center rounded float-right p-5">
+					<h3><u>{donor[0].username}</u></h3>
+					{donor[0].email}<br/>
+					{donor[0].phoneNumber}<br/>
+				</div>)}
+				<div className="border">		
+					<h1>{book[0].Title}</h1>
+					<b>Author:</b> {book[0].Author}<br/>
+					<b>ISBN:</b> {book[0].ISBN}<br/>
+					<b>Publisher:</b> {book[0].Publisher}<br/>
+					<b>Year:</b> {book[0].publicationDate.substring(0,4)}<br/>
+					<br/>
+					<b>Condition:</b> {book[0].bookCondition}<br/>
+				</div>
 			</div>
+			
+			
 		</div>
 		)}
 	</>);
