@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import { ProfileIcon } from './Icons'
 
 export const Navigation = props =>
@@ -10,16 +11,16 @@ export const Navigation = props =>
 
 		<ul class="navbar navbar-nav font-weight-bold">
 			<li class="nav-item active pl-5">
-				<a class="nav-link" href="#">HOME</a>
+				<NavLink to='/home' className='nav-link'>HOME</NavLink>
 			</li>
 			<li class="nav-item active pl-5">
-				<a class="nav-link" href="#">DONATE</a>
+				<NavLink to='/donate' className="nav-link" >DONATE</NavLink>
 			</li>
 			<li class="nav-item active pl-5">
-				<a class="nav-link" href="#">BORROW</a>
+				<NavLink to='/borrow' className="nav-link" >BORROW</NavLink>
 			</li>
 			<li class="nav-item active pl-5">
-				<a class="nav-link" href="#"><ProfileIcon width="35" height="35"/></a>
+				<NavLink to='/profile'><ProfileIcon width="35" height="35"/></NavLink>
 			</li>
 		</ul>
 	</nav>
