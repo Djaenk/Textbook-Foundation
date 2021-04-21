@@ -335,7 +335,7 @@ module.exports = function routes(app, logger) {
         res.status(400).send('Problem obtaining MySQL connection'); 
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
-        connection.query('select * from books where ISBN IN(select ISBN from books GROUP BY ISBN HAVING COUNT(ISBN) > (?))', quantity, function (err, rows, fields) {
+        connection.query('select * from books where COUNT(ISBN) > (?)', quantity, function (err, rows, fields) {
           connection.release();
           if (err) {
             // if there is an error with the query, log the error
@@ -770,7 +770,7 @@ module.exports = function routes(app, logger) {
     });
   });
 
-//api/ratings/{bookID}
+//api/books/{bookID}
 app.delete('/api/books/:bookID', (req, res) => {
   var bookID = req.params.bookID;
   
@@ -786,15 +786,15 @@ app.delete('/api/books/:bookID', (req, res) => {
       // if there is no issue obtaining a connection, execute query and release connection
       connection.query(`
       DELETE from books      
-      WHERE bookID = ${bookID}
+      WHERE bookID = ${bookID} 
       `, function (err, rows, fields) {
         connection.release();
         if (err) {
           // if there is an error with the query, log the error
-          logger.error("Problem inserting into test table: \n", err);
-          res.status(400).send('Problem inserting into table'); 
+          logger.error("Problem deleting from test table: \n", err);
+          res.status(400).send('Problem deleting from table'); 
         } else {
-          res.status(200).send(`Updated BookID: ${bookID} to Rating with borrowerID:${user} and rating:${rating}!`);
+          res.status(200).send(`Removed bookID{bookID}!`);
         }
       });
     }
@@ -803,7 +803,7 @@ app.delete('/api/books/:bookID', (req, res) => {
 
 
 //api/users/{userID}
-app.delete('/api/books/:userID', (req, res) => {
+app.delete('/api/users/:userID', (req, res) => {
   var userID = req.params.userID;
   
 
@@ -815,28 +815,27 @@ app.delete('/api/books/:userID', (req, res) => {
       logger.error('Problem obtaining MySQL connection',err)
       res.status(400).send('Problem obtaining MySQL connection'); 
     } else {
-      // if there is no issue obtaining a connection, execute query and release connection
       connection.query(`
       DELETE from users      
       WHERE userID = ${userID}
-      `, function (err, rows, fields) {
+      `, userID, function (err, rows, fields) {
         connection.release();
         if (err) {
           // if there is an error with the query, log the error
-          logger.error("Problem inserting into test table: \n", err);
-          res.status(400).send('Problem inserting into table'); 
+          logger.error("Problem deleting from test table: \n", err);
+          res.status(400).send('Problem deleting from table'); 
         } else {
-          res.status(200).send(`Updated BookID: ${bookID} to Rating with borrowerID:${user} and rating:${rating}!`);
+          res.status(200).send(`Removed user {userID}!`);
         }
       });
     }
   });
 });
 
-//api/favorites/{ISBN}/?user={userID}
-app.delete('/api/favorites/:ISBN/?user={userID}', (req, res) => {
+//api/favorites/{ISBN}/{userID}
+app.delete('/api/favorites/:ISBN/:userID', (req, res) => {
   var ISBN = req.params.ISBN;
-  var userID = req.param('user');
+  var userID = req.params.userID;
   
 
   //console.log(req.body);
@@ -859,17 +858,17 @@ app.delete('/api/favorites/:ISBN/?user={userID}', (req, res) => {
           logger.error("Problem inserting into test table: \n", err);
           res.status(400).send('Problem inserting into table'); 
         } else {
-          res.status(200).send(`Updated BookID: ${bookID} to Rating with borrowerID:${user} and rating:${rating}!`);
+          res.status(200).send(`Removed favorite book from user {userID} with ISBN {ISBN}!`);
         }
       });
     }
   });
 });
 
-//api/wishlist/{ISBN}/?user={userID}
-app.delete('/api/wishlist/:ISBN/?user={userID}', (req, res) => {
+//api/wishlist/{ISBN}/{userID}
+app.delete('/api/wishlist/:ISBN/:userID', (req, res) => {
   var ISBN = req.params.ISBN;
-  var userID = req.param('user');
+  var userID = req.params.userID;
   
 
   //console.log(req.body);
@@ -892,17 +891,17 @@ app.delete('/api/wishlist/:ISBN/?user={userID}', (req, res) => {
           logger.error("Problem inserting into test table: \n", err);
           res.status(400).send('Problem inserting into table'); 
         } else {
-          res.status(200).send(`Updated BookID: ${bookID} to Rating with borrowerID:${user} and rating:${rating}!`);
+          res.status(200).send(`Removed from wishlist of user {userID} with ISBN {ISBN}!`);
         }
       });
     }
   });
 });
 
-//api/ratings/{bookID}/?user={userID}
-app.delete('/api/ratings/:bookID/?borrower={borrowerID}', (req, res) => {
+//api/ratings/{bookID}/{borrowerID}
+app.delete('/api/ratings/:bookID/:borrowerID', (req, res) => {
   var bookID = req.params.bookID;
-  var borrowerID = req.param('borrower');
+  var borrowerID = req.params.borrowerID;
   
 
   //console.log(req.body);
@@ -925,7 +924,7 @@ app.delete('/api/ratings/:bookID/?borrower={borrowerID}', (req, res) => {
           logger.error("Problem inserting into test table: \n", err);
           res.status(400).send('Problem inserting into table'); 
         } else {
-          res.status(200).send(`Updated BookID: ${bookID} to Rating with borrowerID:${user} and rating:${rating}!`);
+          res.status(200).send(`Removed rating by {borrowerID} on book {bookID}!`);
         }
       });
     }
@@ -933,7 +932,7 @@ app.delete('/api/ratings/:bookID/?borrower={borrowerID}', (req, res) => {
 });
 
   // Login 
-  router.post('/api/login', (req, res) => {	
+  app.post('/api/login', (req, res) => {	
     con.getConnection(res, (response) => {		
       if (response.message == 'fail') return;		
       response.conn.query(`SELECT * FROM users where username = "${req.body.username}"`,		function (err, result, fields) {			
