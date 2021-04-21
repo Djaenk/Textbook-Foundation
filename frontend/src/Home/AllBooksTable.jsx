@@ -1,6 +1,7 @@
 import React from 'react';
 import { SearchIcon } from '../app/Icons';
 import { Books } from '../api/books';
+import { Link } from 'react-router-dom';
 
 export class AllBooksTable extends React.Component{
 	state = {
@@ -28,7 +29,7 @@ export class AllBooksTable extends React.Component{
 				<tbody>
 					{this.state.books.map(book =>
 						<tr>
-							<td className={book.favorite ? "" : "star"}>{book.Title}</td>
+							<td className={book.favorite ? "" : "star"}><Link to= { '/books/' +  book.bookID  }>{book.Title}</Link></td>
 							<td>{book.ISBN}</td>
 							<td>{book.status}</td>
 						</tr>
