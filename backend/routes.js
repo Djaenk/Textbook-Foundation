@@ -932,4 +932,19 @@ app.delete('/api/ratings/:bookID/?borrower={borrowerID}', (req, res) => {
   });
 });
 
+  // Login 
+  router.post('/api/login', (req, res) => {	
+    con.getConnection(res, (response) => {		
+      if (response.message == 'fail') return;		
+      response.conn.query(`SELECT * FROM users where username = "${req.body.username}"`,		function (err, result, fields) {			
+        if (result[0] && result[0].password == req.body.password) {				
+          res.send({status: true, account: result[0]});			
+        } 
+        else {		
+          		res.send({ status: false });			
+            }
+          });
+      });
+    });
+
 };
