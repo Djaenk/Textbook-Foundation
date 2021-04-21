@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import './BookTable.css';
 
 export const BookTable = props => {
-	const [books, setBooks] = useState(props.books);
-
 	return <>
 		<h3 className="text-left m-3">{props.heading}</h3>
 		<table className="table table-sm text-left">
@@ -15,7 +13,7 @@ export const BookTable = props => {
 				</tr>
 			</thead>
 			<tbody>
-				{books.map(book =>
+				{props.books.map(book =>
 					<tr key={book.id}>
 						<td className={book.favorite ? "" : "star"}>{book.title}</td>
 						<td>{book.isbn}</td>
