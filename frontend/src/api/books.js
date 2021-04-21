@@ -35,5 +35,18 @@ export class Books{
         })
     }
 
+    deleteBook(id) {
+	return new Promise((resolve, reject) => {
+            axios.delete(`${hostname}/api/books/${id}`)
+                .then(response => {
+                    resolve(response.data);
+                })
+                .catch(err => {
+                    console.error(err);
+                    reject(err);
+                });
+        })
+    }
+
 }
 export default Books;

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Navigation } from '../app/Navigation';
 import {Books, Accounts} from '../api';
+import {Link} from 'react-router-dom';
 
 export const Book = props => {
 
@@ -22,21 +23,38 @@ export const Book = props => {
 			.then(x => setDonor(x.data));
 		}
 	});
+
+	const deleteThis = () => {
+		bookApi.deleteBook(book[0].bookID)
+		.then(x => {
+			alert("Listing deleted successfully");
+			props.history.push('/home');
+		});
+	};
 	
 	return (<>
 		<Navigation />
+		<Link to='/home' className="m-4"><button type="button" class="btn btn-primary">Return to Home</button></Link>
 		{!book && (
 			<div className="text-center m-5"><h1>Loading...</h1></div>
 		)}
 		{book && (
 		<div className="w-100 p-3">
 			<div className="bg-light border p-4 clearfix">
+
+				{book && book[0] === sessionStorage.getItem('userID') && (
+				<div className="border m-3 p-2 rounded clearfix">
+					<button type="button" class="btn btn-primary float-right" onClick={deleteThis}>Cancel Listing</button>
+					<span className="">You are the donor for this listing.</span>
+				</div>
+				)}
+
 				{donor && (<div className="border bg-secondary text-white text-center rounded float-right p-5">
 					<h3><u>{donor[0].username}</u></h3>
 					{donor[0].email}<br/>
 					{donor[0].phoneNumber}<br/>
 				</div>)}
-				<div className="border">		
+				<div className="">		
 					<h1>{book[0].Title}</h1>
 					<b>Author:</b> {book[0].Author}<br/>
 					<b>ISBN:</b> {book[0].ISBN}<br/>
