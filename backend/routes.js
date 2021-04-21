@@ -794,7 +794,7 @@ app.delete('/api/books/:bookID', (req, res) => {
           logger.error("Problem deleting from test table: \n", err);
           res.status(400).send('Problem deleting from table'); 
         } else {
-          res.status(200).send(`Removed bookID{bookID}!`);
+          res.status(200).send(`Removed bookID ${bookID}!`);
         }
       });
     }
@@ -825,7 +825,7 @@ app.delete('/api/users/:userID', (req, res) => {
           logger.error("Problem deleting from test table: \n", err);
           res.status(400).send('Problem deleting from table'); 
         } else {
-          res.status(200).send(`Removed user {userID}!`);
+          res.status(200).send(`Removed user ${userID}!`);
         }
       });
     }
@@ -858,7 +858,7 @@ app.delete('/api/favorites/:ISBN/:userID', (req, res) => {
           logger.error("Problem inserting into test table: \n", err);
           res.status(400).send('Problem inserting into table'); 
         } else {
-          res.status(200).send(`Removed favorite book from user {userID} with ISBN {ISBN}!`);
+          res.status(200).send(`Removed favorite book from user ${userID} with ISBN ${ISBN}!`);
         }
       });
     }
@@ -891,7 +891,7 @@ app.delete('/api/wishlist/:ISBN/:userID', (req, res) => {
           logger.error("Problem inserting into test table: \n", err);
           res.status(400).send('Problem inserting into table'); 
         } else {
-          res.status(200).send(`Removed from wishlist of user {userID} with ISBN {ISBN}!`);
+          res.status(200).send(`Removed from wishlist of user ${userID} with ISBN ${ISBN}!`);
         }
       });
     }
@@ -924,7 +924,7 @@ app.delete('/api/ratings/:bookID/:borrowerID', (req, res) => {
           logger.error("Problem inserting into test table: \n", err);
           res.status(400).send('Problem inserting into table'); 
         } else {
-          res.status(200).send(`Removed rating by {borrowerID} on book {bookID}!`);
+          res.status(200).send(`Removed rating by ${borrowerID} on book ${bookID}!`);
         }
       });
     }
