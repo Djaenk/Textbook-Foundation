@@ -98,6 +98,7 @@ module.exports = function routes(app, logger) {
     });
   });
 
+  // Post a user
   // api/users?username={userName}&password={password}&firstName={firstName}&lastName={lastName}&phoneNumber={phoneNumber}&email={email}&private={private}
   // Confirmed working
   app.post('/api/users', (req, res) => {
@@ -133,6 +134,7 @@ module.exports = function routes(app, logger) {
     });
   });
 
+  // Post a new book
   // api/books/{ISBN}?author={author}&publisher={publisher}&publicationDate={publicationDate}&condition={condition}&donorID={donorID)&borrowerID={borrowerID}
   // Does this make it all optional or will this query fail if not all fields are provided?
   // Works when all fields are filled out
@@ -931,19 +933,33 @@ app.delete('/api/ratings/:bookID/:borrowerID', (req, res) => {
   });
 });
 
+
+ 
+
   // Login 
-  app.post('/api/login', (req, res) => {	
-    con.getConnection(res, (response) => {		
-      if (response.message == 'fail') return;		
-      response.conn.query(`SELECT * FROM users where username = "${req.body.username}"`,		function (err, result, fields) {			
-        if (result[0] && result[0].password == req.body.password) {				
-          res.send({status: true, account: result[0]});			
-        } 
-        else {		
-          		res.send({ status: false });			
+    app.post('/api/login', (req, res) => {
+    var username = req.body.username;
+    var password = req.body.password;
+      console.log(req.body);
+
+      pool.getConnection(function (err, connection){
+        if(err){
+          // if there is an issue obtaining a connection, release the connection instance and log the error
+          logger.error('Problem obtaining MySQL connection',err)
+          res.status(400).send('Problem obtaining MySQL connection'); 
+        } else {
+          // if there is no issue obtaining a connection, execute query and release connection
+          connection.query(`SELECT * FROM users where username = "${req.body.username}"`, function (err, result, fields) {
+            if (result[0] && result[0].password == req.body.password) {				
+              res.send({status: true, account: result[0]});			
+            } 
+            else {		
+              res.send({ status: false });			
             }
           });
+        }
       });
     });
+
 
 };
