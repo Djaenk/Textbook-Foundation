@@ -1,5 +1,6 @@
 import React from 'react';
 import { SearchIcon } from '../app/Icons';
+import { Books } from '../api/books';
 
 export class AllBooksTable extends React.Component{
 	state = {
@@ -7,7 +8,7 @@ export class AllBooksTable extends React.Component{
 		favoritesOnly: false,
 	};
 
-	
+	booksRepository = new Books();
 
 	render() {
 		return <>
@@ -27,8 +28,8 @@ export class AllBooksTable extends React.Component{
 				<tbody>
 					{this.state.books.map(book =>
 						<tr>
-							<td className={book.favorite ? "" : "star"}>{book.title}</td>
-							<td>{book.isbn}</td>
+							<td className={book.favorite ? "" : "star"}>{book.Title}</td>
+							<td>{book.ISBN}</td>
 							<td>{book.status}</td>
 						</tr>
 					)}
@@ -36,4 +37,9 @@ export class AllBooksTable extends React.Component{
 			</table>
 		</>
 	}
+	componentDidMount() {
+		this.booksRepository.getBooks()
+            .then(books => this.setState(books));
+	}
+	
 }
