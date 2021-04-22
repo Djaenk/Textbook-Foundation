@@ -13,22 +13,24 @@ export class AllBooksTable extends React.Component{
 
 	render() {
 		return <>
-			<h3 class="text-left mx-3">All Books</h3>
-			<form class="form-inline">
-				<input name="search-input" class="form-control m-3" type="search" placeholder="Filter Books" aria-label="Search"/>
-				<input name="favorites-toggle" class="form-check-input" type="checkbox" aria-label="Favorites only"/>
-				<label for="favorites-toggle" class="form-check-label">Favorites only</label>
+			<h3 className="text-left mx-3">All Books</h3>
+			<form className="form-inline">
+				<input name="search-input" className="form-control m-3" type="search" placeholder="Filter Books" aria-label="Search"/>
+				<input name="favorites-toggle" className="form-check-input" type="checkbox" aria-label="Favorites only"/>
+				<label htmlFor="favorites-toggle" className="form-check-label">Favorites only</label>
 			</form>
-			<table class="table table-sm text-left">
-				<thead class="thead-dark">
-					<th>Book Title</th>
-					<th>ISBN-13</th>
-					<th>Status</th>
-					<th></th>
+			<table className="table table-sm text-left">
+				<thead className="thead-dark">
+					<tr>
+						<th>Book Title</th>
+						<th>ISBN-13</th>
+						<th>Status</th>
+						<th></th>
+					</tr>
 				</thead>
 				<tbody>
-					{this.state.books.map(book =>
-						<tr>
+					{this.state.books.map((book, index) =>
+						<tr key={ index }>
 							<td className={book.favorite ? "" : "star"}><Link to= { '/books/' +  book.bookID  }>{book.Title}</Link></td>
 							<td>{book.ISBN}</td>
 							<td>{book.status}</td>

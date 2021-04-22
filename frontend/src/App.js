@@ -64,7 +64,7 @@ function App () {
 
   // tell app to fetch values from db on first load (if initialized)
   useEffect(() => {
-    fetchVals();
+    // fetchVals();
   }, [])
 
   return (
