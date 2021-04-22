@@ -7,20 +7,20 @@ export const Home = props =>
 <>
 	<Navigation/>
 
-	<div class="container-fluid mt-3">
-		<div class="row">
-			<div class="col">
+	<div className="container-fluid mt-3">
+		<div className="row">
+			<div className="col">
 				<BookTable heading="Table" books={[{title: "title", isbn: "0123456789101", status: "borrowed", favorite: true}]}/>
 			</div>
-			<div class="col">
+			<div className="col">
 				<BookTable heading="Table" books={[{title: "title", isbn: "0123456789101", status: "borrowed"}]}/>
 			</div>
 		</div>
-		<div class="row">
-			<div class="line"></div>
+		<div className="row">
+			<div className="line"></div>
 		</div>
-		<div class="row" style={{maxWidth: "1440px", margin: "0 auto"}}>
-			<div class="col">
+		<div className="row" style={{maxWidth: "1440px", margin: "0 auto"}}>
+			<div className="col">
 				<AllBooksTable heading="Table" books={[{title: "title", isbn: "0123456789101", status: "borrowed"}]}/>
 			</div>
 		</div>
