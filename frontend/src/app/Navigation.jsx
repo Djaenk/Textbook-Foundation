@@ -1,10 +1,11 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { ProfileIcon } from './Icons'
+import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 
 export const Navigation = props =>
 <>
-	<nav id="navigation" className="navbar navbar-expand-sm navbar-dark bg-dark d-flex justify-content-between" style={{height: 70}}>
+	{/* <nav id="navigation" className="navbar navbar-expand-sm navbar-dark bg-dark d-flex justify-content-between" style={{height: 70}}>
 		<a className="navbar-brand">
 			<img src="textBookFoundation_logoWhite.png" alt="Textbook Foundation Logo"/>
 		</a>
@@ -23,5 +24,18 @@ export const Navigation = props =>
 				<NavLink to='/profile'><ProfileIcon width="35" height="35"/></NavLink>
 			</li>
 		</ul>
-	</nav>
+	</nav> */}
+
+	<Navbar bg="dark" expand="lg" className="navbar navbar-expand-md navbar-dark bg-dark d-flex justify-content-between">
+        <Navbar.Brand href="#home"><img className="mw-50" src="textBookFoundation_logoWhite.png" alt="Textbook Foundation Logo"/></Navbar.Brand>
+        <Navbar.Toggle />
+        <Navbar.Collapse>
+          <Nav className="font-weight-bold ml-auto">
+		  <NavLink to='/home' className='nav-link'>HOME</NavLink>
+		  <NavLink to='/donate' className="nav-link" >DONATE</NavLink>
+		  <NavLink to='/borrow' className="nav-link" >BORROW</NavLink>
+		  <NavLink to='/profile' ><ProfileIcon width="35" height="35"/></NavLink>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
 </>
