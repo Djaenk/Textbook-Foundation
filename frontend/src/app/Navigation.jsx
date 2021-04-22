@@ -26,7 +26,7 @@ export const Navigation = props =>
 		</ul>
 	</nav> */}
 
-	<Navbar bg="dark" expand="lg" className="navbar navbar-expand-md navbar-dark bg-dark d-flex justify-content-between">
+	<Navbar bg="dark" expand="lg" className="navbar navbar-expand-md navbar-dark bg-dark d-flex justify-content-between" >
         <Navbar.Brand href="#home"><img className="mw-50" src="textBookFoundation_logoWhite.png" alt="Textbook Foundation Logo"/></Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse>
