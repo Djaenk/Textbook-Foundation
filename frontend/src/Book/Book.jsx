@@ -62,12 +62,17 @@ export const Book = props => {
 				}
 
 				{donor && 
-					<div className="border bg-secondary text-white text-center rounded float-right p-5">
+				<div className="border bg-secondary text-white text-center rounded float-right p-5">
+					{donor[0] && <>
 						<h3><u>{donor[0].username}</u></h3>
 						{donor[0].email}<br/>
 						{donor[0].phoneNumber}<br/>
-					</div>
-				}
+					</>}
+					{!donor[0] && <>
+						<span>Error retrieving donor information</span>
+					</>}
+				</div>}
+				
 				<div className="">		
 					<h1>{book[0].Title}</h1>
 					<b>Author:</b> {book[0].Author}<br/>
