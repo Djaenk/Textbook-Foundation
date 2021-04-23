@@ -1,26 +1,43 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import Books from '../api/books';
 import './BookTable.css';
 
-export const BookTable = props =>
-<>
-	<h3 className="text-left m-3">{props.heading}</h3>
-	<table className="table table-sm text-left">
-		<thead className="thead-dark">
-			<tr>
-				<th>Book Title</th>
-				<th>ISBN-13</th>
-				<th>Status</th>
-			</tr>
-			
-		</thead>
-		<tbody>
-			{props.books.map((book, index) =>
-				<tr key={ index }>
-					<td className={book.favorite ? "" : "star"}>{book.title}</td>
-					<td>{book.isbn}</td>
-					<td>{book.status}</td>
+export const BookTable = props => {
+	const booksRespository = new Books();
+	const [books, setBooks] = React.useState([]);
+
+	useEffect(() => {
+		booksRespository.getFavorites(sessionStorage.userId).then(favoritesValue => {
+			console.log(value);
+			props.booksPromise.then(booksValue => {
+				for (let book of booksValue){
+					book.status = book.borrowerID ? 'Borrowed' : 'Donated';
+					book.favorite = favoritesValue.some(f => f.Title === book.Title);
+				}
+			})
+			setBooks(booksValue);
+		});
+	}, []);
+
+	return <>
+		<h3 className="text-left m-3">{props.heading}</h3>
+		<table className="table table-sm text-left">
+			<thead className="thead-dark">
+				<tr>
+					<th>Book Title</th>
+					<th>ISBN-13</th>
+					<th>Status</th>
 				</tr>
-			)}
-		</tbody>
-	</table>
-</>
+			</thead>
+			<tbody>
+				{books.map(book =>
+					<tr key={book.id}>
+						<td className={book.favorite ? "" : "star"}>{book.title}</td>
+						<td>{book.ISBN}</td>
+						<td>{book.status}</td>
+					</tr>
+				)}
+			</tbody>
+		</table>
+	</>
+}

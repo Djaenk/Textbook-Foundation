@@ -48,5 +48,57 @@ export class Books{
         })
     }
 
+    getRatings(ISBN) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${hostname}/api/ratings/${ISBN}`)
+                .then(response => {
+                    resolve(response.data);
+                })
+                .catch(err => {
+                    console.error(err);
+                    reject(err);
+                });
+        })
+    }
+
+    getFavorites(userId) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${hostname}/api/favorites/${userId}`)
+                .then(response => {
+                    resolve(response.data);
+                })
+                .catch(err => {
+                    console.error(err);
+                    reject(err);
+                });
+        })
+    }
+
+    getDonations(userId) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${hostname}/api/users/donations/${userId}`)
+                .then(response => {
+                    resolve(response.data);
+                })
+                .catch(err => {
+                    console.error(err);
+                    reject(err);
+                });
+        })
+    }
+
+    getBorrows(userId) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${hostname}/api/users/borrows/${userId}`)
+                .then(response => {
+                    resolve(response.data);
+                })
+                .catch(err => {
+                    console.error(err);
+                    reject(err);
+                });
+        })
+    }
+
 }
 export default Books;
