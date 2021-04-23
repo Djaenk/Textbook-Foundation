@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Navigation } from '../app/Navigation';
 import {Books, Accounts} from '../api';
 import {Link} from 'react-router-dom';
+import {Rating} from '.'
 
 export const Book = props => {
 
@@ -42,7 +43,7 @@ export const Book = props => {
 		<div className="w-100 p-3">
 			<div className="bg-light border p-4 clearfix">
 
-				{book && book[0] === sessionStorage.getItem('userID') && (
+				{book && book[0].donorID === sessionStorage.getItem('userID') && (
 				<div className="border m-3 p-2 rounded clearfix">
 					<button type="button" class="btn btn-primary float-right" onClick={deleteThis}>Cancel Listing</button>
 					<span className="">You are the donor for this listing.</span>
@@ -61,7 +62,11 @@ export const Book = props => {
 					<b>Publisher:</b> {book[0].Publisher}<br/>
 					<b>Year:</b> {book[0].publicationDate.substring(0,4)}<br/>
 					<br/>
-					<b>Condition:</b> {book[0].bookCondition}<br/>
+					<b>Condition:</b> <Rating value={book[0].bookCondition}/><br/>
+
+					{book && book[0].donorID !== sessionStorage.getItem('userID') && (
+						<button type="button" class="btn btn-primary d-block mt-2" onClick={() => alert("Not implemented")}>Check out</button>
+					)}
 				</div>
 			</div>
 			
