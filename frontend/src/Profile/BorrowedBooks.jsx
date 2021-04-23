@@ -1,5 +1,5 @@
 import React from 'react';
-import 'BorrowedBooks.css';
+import './BookTable.css';
 
 export const BorrowedBooks = props =>
 <>
@@ -9,7 +9,8 @@ export const BorrowedBooks = props =>
 			<tr>
 				<th>Book Title</th>
 				<th>ISBN-13</th>
-				<th>Status</th>
+				<th>Borrower Name</th>
+				<th>E-mail</th>
 			</tr>
 			
 		</thead>
@@ -18,7 +19,6 @@ export const BorrowedBooks = props =>
 				<tr key={ index }>
 					<td className={book.favorite ? "" : "star"}>{book.title}</td>
 					<td>{book.isbn}</td>
-					<td>{book.status}</td>
 				</tr>
 			)}
 		</tbody>
