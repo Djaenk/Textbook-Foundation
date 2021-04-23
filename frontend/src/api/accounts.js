@@ -74,6 +74,44 @@ export class Accounts {
         });
     }
 
+    getDonatedBooks(id) {
+        return new Promise((resolve,reject)=>{
+            axios.get(hostname + '/api/user/donations/' + id)
+            .then(response => {
+                resolve(response.data)
+            })
+            .catch(err => {
+                console.error(error);
+                reject(err);
+            })
+        })
+    }
+
+    getBorrowedBooks(id) {
+        return new Promise((resolve,reject)=>{
+            axios.get(hostname + '/api/user/borrows/' + id)
+            .then(response => {
+                resolve(response.data)
+            })
+            .catch(err => {
+                console.error(error);
+                reject(err);
+            })
+        })
+    }
+
+    getWishlist(id) {
+        return new Promise((resolve,reject)=>{
+            axios.get(hostname + '/api/wishlist/' + id)
+            .then(response => {
+                resolve(response.data)
+            })
+            .catch(err => {
+                console.error(error);
+                reject(err);
+            })
+        })
+    }
 }
 
 export default Accounts;
