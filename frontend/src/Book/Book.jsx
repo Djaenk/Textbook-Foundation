@@ -11,6 +11,7 @@ export const Book = props => {
 	const acctApi = new Accounts();
 	const [book, setBook] = useState(0);
 	const [donor, setDonor] = useState(0);
+	const [borrower, setBorrower] = useState(0);
 
 	useEffect(() => {
 
@@ -22,6 +23,10 @@ export const Book = props => {
 		if (book && !donor) {
 			acctApi.getProfile(book[0].donorID)
 			.then(x => setDonor(x.data));
+		}
+		if (book && !borrower && book[0].borrowerID) {
+			acctApi.getProfile(book[0].borrowerID)
+			.then(x => setBorrower(x.data));
 		}
 	});
 
@@ -39,22 +44,30 @@ export const Book = props => {
 		{!book && (
 			<div className="text-center m-5"><h1>Loading...</h1></div>
 		)}
-		{book && (
+		{book && book[0] && (
 		<div className="w-100 p-3">
 			<div className="bg-light border p-4 clearfix">
 
-				{book && book[0].donorID === sessionStorage.getItem('userID') && (
-				<div className="border m-3 p-2 rounded clearfix">
-					<button type="button" class="btn btn-primary float-right" onClick={deleteThis}>Cancel Listing</button>
-					<span className="">You are the donor for this listing.</span>
-				</div>
-				)}
+				{!borrower && book[0].donorID == window.sessionStorage.getItem('userID') && 
+					<div className="border m-3 p-2 rounded clearfix">
+						<button type="button" class="btn btn-primary float-right" onClick={deleteThis}>Cancel Listing</button>
+						<span className="">You are the donor for this listing.</span>
+					</div>
+				}
 
-				{donor && (<div className="border bg-secondary text-white text-center rounded float-right p-5">
-					<h3><u>{donor[0].username}</u></h3>
-					{donor[0].email}<br/>
-					{donor[0].phoneNumber}<br/>
-				</div>)}
+				{book && borrower[0] && 
+					<div className="border m-3 p-2 rounded clearfix">
+						<span className="">This book was donated to {borrower && borrower[0].username} on {book[0].donationDate.substring(0,10)}.</span>
+					</div>
+				}
+
+				{donor && 
+					<div className="border bg-secondary text-white text-center rounded float-right p-5">
+						<h3><u>{donor[0].username}</u></h3>
+						{donor[0].email}<br/>
+						{donor[0].phoneNumber}<br/>
+					</div>
+				}
 				<div className="">		
 					<h1>{book[0].Title}</h1>
 					<b>Author:</b> {book[0].Author}<br/>
@@ -64,9 +77,14 @@ export const Book = props => {
 					<br/>
 					<b>Condition:</b> <Rating value={book[0].bookCondition}/><br/>
 
-					{book && book[0].donorID !== sessionStorage.getItem('userID') && (
+					{book[0].donorID != window.sessionStorage.getItem('userID') && (
 						<button type="button" class="btn btn-primary d-block mt-2" onClick={() => alert("Not implemented")}>Check out</button>
 					)}
+					{console.log(book[0].donorID, window.sessionStorage.getItem('userID'))}
+					{console.log(book[0].donorID == window.sessionStorage.getItem('userID'))}
+					{console.log(book[0].donorID != window.sessionStorage.getItem('userID'))}
+					{console.log(book[0].borrowerID, borrower)}
+
 				</div>
 			</div>
 			
