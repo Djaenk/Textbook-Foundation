@@ -83,7 +83,7 @@ export const Book = props => {
 					<b>Condition:</b> <Rating value={book[0].bookCondition}/><br/>
 
 					{book[0].donorID != window.sessionStorage.getItem('userID') && (
-						<button type="button" class="btn btn-primary d-block mt-2" onClick={() => alert("Not implemented")}>Check out</button>
+						<button type="button" class="btn btn-primary d-block mt-2" onClick={() => props.history.push('/borrow/' + book[0].bookID)}>Check out</button>
 					)}
 					{console.log(book[0].donorID, window.sessionStorage.getItem('userID'))}
 					{console.log(book[0].donorID == window.sessionStorage.getItem('userID'))}
