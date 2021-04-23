@@ -34,7 +34,7 @@ export class Landing extends React.Component {
         if (response.status) {
 
             sessionStorage.setItem("isAuthenticated", "true");
-            sessionStorage.setItem("userId", response.account.ID);
+            sessionStorage.setItem("userId", response.account.userID);
 
             this.setState({
                 username: "",
