@@ -1,7 +1,7 @@
 import React from 'react';
-import 'DonatedBooks.css';
+import 'BorrowedBooks.css';
 
-export const DonatedBooks = props =>
+export const BorrowedBooks = props =>
 <>
     <h3 className="text-left m-3">{props.heading}</h3>
     <table className="table table-sm text-left">
