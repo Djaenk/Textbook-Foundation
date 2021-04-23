@@ -8,14 +8,14 @@ export const BookTable = props => {
 
 	useEffect(() => {
 		booksRespository.getFavorites(sessionStorage.userId).then(favoritesValue => {
-			console.log(value);
+			console.log(favoritesValue);
 			props.booksPromise.then(booksValue => {
 				for (let book of booksValue){
 					book.status = book.borrowerID ? 'Borrowed' : 'Donated';
 					book.favorite = favoritesValue.some(f => f.Title === book.Title);
 				}
+				setBooks(booksValue);
 			})
-			setBooks(booksValue);
 		});
 	}, []);
 
