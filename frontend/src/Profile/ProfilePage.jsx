@@ -9,6 +9,7 @@ export const ProfilePage = props =>
 <>
 	<Navigation/>
 
+    
 	<div className="container-fluid mt-3">
         <div className="row" style={{maxWidth: "1440px", margin: "0 auto"}}>
 			<div className="col">
