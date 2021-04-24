@@ -104,7 +104,7 @@ export const AllBooksTable = props => {
 			<ul className="pagination m-3">
 				<li className="page-item disabled"><button type="button" className="page-link">Page</button></li>
 				{[...Array(Math.ceil(books.length/perPage)).keys()].map(i =>
-					<li className="page-item"><button type="button" className="page-link" onClick={() => setPage(i)}>{i+1}</button></li>
+					<li key={i} className="page-item"><button type="button" className="page-link" onClick={() => setPage(i)}>{i+1}</button></li>
 				)}
 			</ul>
 		</nav>
