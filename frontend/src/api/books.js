@@ -100,5 +100,18 @@ export class Books{
         })
     }
 
+    checkoutBook(borrowerID, bookID) {
+        return new Promise((resolve, reject) => {
+            axios.put(`${hostname}/api/books/borrow/${bookID}`, { borrowerID })
+                .then(response => {
+                    resolve({ status: response.data.status, account: response.data.account });
+                })
+                .catch(err => {
+                    error(err);
+                    resolve({ status: false });
+                });
+        });
+    }
+
 }
 export default Books;

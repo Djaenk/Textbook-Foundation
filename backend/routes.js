@@ -693,6 +693,38 @@ module.exports = function routes(app, logger) {
     });
   });
 
+    //api/books/borrow/{bookID}?borrowerID={borrowerID}
+    app.put('/api/books/borrow/:bookID', (req, res) => {
+      var bookID = req.params.bookID;
+      var borrowerID = req.param('borrowerID');
+  
+      console.log(req.body);
+  
+      pool.getConnection(function (err, connection){
+        if(err){
+          // if there is an issue obtaining a connection, release the connection instance and log the error
+          logger.error('Problem obtaining MySQL connection',err)
+          res.status(400).send('Problem obtaining MySQL connection'); 
+        } else {
+          // if there is no issue obtaining a connection, execute query and release connection
+          connection.query(`
+          UPDATE books SET 
+          borrowerID = ${borrowerID}
+          WHERE bookID = ${bookID};
+          `, function (err, rows, fields) {
+            connection.release();
+            if (err) {
+              // if there is an error with the query, log the error
+              logger.error("Problem inserting into test table: \n", err);
+              res.status(400).send('Problem inserting into table'); 
+            } else {
+              res.status(200).send(`Updated BookID: ${bookID} with BorrowerID:${borrowerID}!`);
+            }
+          });
+        }
+      });
+    });
+
 
    //api/users/{userID}?username={userName}&password={password}&firstName={firstName}&lastName={lastName}&phoneNumber={phoneNumber}&email={email}&private={private}
    app.put('/api/users/:userID', (req, res) => {
