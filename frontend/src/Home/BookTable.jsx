@@ -3,11 +3,11 @@ import Books from '../api/books';
 import './BookTable.css';
 
 export const BookTable = props => {
-	const booksRespository = new Books();
 	const [books, setBooks] = React.useState([]);
 
 	useEffect(() => {
-		booksRespository.getFavorites(sessionStorage.userId).then(favoritesValue => {
+		const booksRepository = new Books();
+		booksRepository.getFavorites(sessionStorage.getItem('userId')).then(favoritesValue => {
 			console.log(favoritesValue);
 			props.booksPromise.then(booksValue => {
 				for (let book of booksValue){
@@ -17,7 +17,7 @@ export const BookTable = props => {
 				setBooks(booksValue);
 			})
 		});
-	}, []);
+	});
 
 	return <>
 		<h3 className="text-left m-3">{props.heading}</h3>
