@@ -3,7 +3,6 @@ import Books from '../api/books';
 import {StarFill, ArrowDownUp, Search} from 'react-bootstrap-icons';
 
 export const AllBooksTable = props => {
-	const booksRespository = new Books();
 	const [books, setBooks] = React.useState([]);
 	const [field, setField] = React.useState(null);
 	const [asc, setAsc] = React.useState(true);
@@ -13,9 +12,11 @@ export const AllBooksTable = props => {
 	const [search, setSearch] = React.useState('')
 
 	useEffect(() => {
+		const booksRepository = new Books();
 		props.booksPromise.then(value => {
 			for (let book of value.books){
-				booksRespository.getRatings(book.ISBN).then(ratings => {
+				booksRepository.getRatings(book.ISBN).then(ratings => {
+					console.log(ratings);
 					let average = Math.round(ratings.reduce((a, b) => a + b) / ratings.length);
 					book.rating = average;
 				});
@@ -23,15 +24,15 @@ export const AllBooksTable = props => {
 			}
 			setBooks(value.books);
 		});
-	}, [])
+	})
 
 	function handleSearch(){
 		let books = [];
 		for (const book of props.books){
-			if(book.title.toLowerCase().includes(search.toLowerCase())){
+			if(book.Title.toLowerCase().includes(search.toLowerCase())){
 				books.push(book)
 			}
-			else if(book.isbn.includes(search)){
+			else if(book.ISBN.includes(search)){
 				books.push(book)
 			}
 			else if(book.status.includes(search.toLowerCase())){
@@ -62,7 +63,7 @@ export const AllBooksTable = props => {
 						<button type="button" className="btn btn-info pt-1" onClick={handleSearch}><Search size="19"/></button>
 					</div>
 				</div>
-				<div class="form-check m-3">
+				<div className="form-check m-3">
 					<input name="favorites-toggle" className="form-check-input" type="checkbox" aria-label="Favorites only" checked={favoritesOnly} onChange={setFavoritesOnly.bind(this, favoritesOnly => !favoritesOnly)}/>
 					<label htmlFor="favorites-toggle" className="form-check-label">Favorites only</label>
 				</div>
@@ -87,9 +88,9 @@ export const AllBooksTable = props => {
 			</thead>
 			<tbody>
 				{books.slice(page * perPage, (page + 1) * perPage).map(book =>
-					<tr key={book.id} className={(!book.favorite && favoritesOnly) ? "d-none" : ""}>
-						<td className={book.favorite ? "star" : ""}>{book.title}</td>
-						<td>{book.isbn}</td>
+					<tr key={book.bookID} className={(!book.favorite && favoritesOnly) ? "d-none" : ""}>
+						<td className={book.favorite ? "star" : ""}>{book.Title}</td>
+						<td>{book.ISBN}</td>
 						<td>{book.status}</td>
 						<td>{[...Array(book.rating).keys()].map(i =>
 								<StarFill key={i}/>
