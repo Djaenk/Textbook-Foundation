@@ -17,6 +17,7 @@ export default function Routes({ appProps }) {
         <Route path="/register" exact component={Register} appProps={appProps} />
         <Route path="/books/:id" component={Book} appProps={appProps} />
         <Route path="/profile" component={ProfilePage} appProps={appProps}/>
+        <Route path="/edit/:id" component={ProfileEditor} appProps={appProps}/>
         {/* <Route path="/login" exact component={Login} appProps={appProps} /> */}
         {/* <Route
           path="/register"

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import Account from '../api/books';
 import './BookTable.css';
-import {StarFill, ArrowDownUp, Search} from 'react-bootstrap-icons';
+import {ArrowDownUp, Search} from 'react-bootstrap-icons';
 
 export const DonatedBooks = props => {
 	const [books, setBooks] = React.useState([]);
@@ -17,7 +17,7 @@ export const DonatedBooks = props => {
 			for (let book of value.books){
 				accountsRepository.getProfile(book.borrowerID).then(profile => {
 					console.log(profile);
-					book.borrower = profile.firstName + ' ' +profile.lastName;
+					book.borrower = profile.username;
 				});
 				book.status = book.borrowerID ? 'Checked-Out' : 'Not-Claimed';
 			}
@@ -55,7 +55,7 @@ export const DonatedBooks = props => {
 	})
 
 	return <>
-		<h3 className="text-left mx-3">All Books</h3>
+		<h3 className="text-left mx-3">Donated Books</h3>
 		<div className="row">
 			<form className="form-inline col">
 				<div className="input-group m-3">
