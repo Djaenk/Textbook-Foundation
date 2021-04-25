@@ -1,31 +1,47 @@
 import React from 'react';
 import { Navigation } from '../app/Navigation';
+import Books from '../api/books';
+import Accounts from '../api/accounts';
 import { BorrowedBooks } from './BorrowedBooks';
-import { CheckedOutBooks } from './CheckedOutBooks';
-import { DonatedBooks } from './DonatedBooks'
+import { DonatedBooks } from './DonatedBooks';
+import { ProfileInfo } from './ProfileInfo';
+import { Link } from 'react-router-dom';
 
 
-export const ProfilePage = props =>
-<>
-	<Navigation/>
+export const ProfilePage = props =>{
+	const booksRespository = new Books();
+	const accountsRepository = new Accounts();
 
-    
-	<div className="container-fluid mt-3">
-        <div className="row" style={{maxWidth: "1440px", margin: "0 auto"}}>
-			<div className="col">
-				<BorrowedBooks heading="Table" books={[{title: "title", isbn: "0123456789101", status: "borrowed"}]}/>
+	return <>
+		<Navigation/>
+		<div className="container-fluid mt-3">
+
+			<div className="row">
+				<div className="col">
+					<ProfileInfo heading="Profile Information" profilePromise={accountsRepository.getProfile(sessionStorage.userId)}/>
+				</div>
+				<Link to={ '/edit/' + sessionStorage.userId }>Edit your account... </Link>
+			</div>
+
+			<div className="row">
+				<div className="line"></div>
+			</div>	
+
+			<div className="row">
+				<div className="col">
+					<DonatedBooks heading="Donated Books" booksPromise={booksRespository.getDonations(sessionStorage.userId)}/>
+				</div>
+			</div>
+
+			<div className="row">
+				<div className="line"></div>
+			</div>
+
+			<div className="row">
+				<div className="col">
+					<BorrowedBooks heading="Borrowed Books" booksPromise={booksRespository.getBorrows(sessionStorage.userId)}/>
+				</div>
 			</div>
 		</div>
-        <div className="row">
-			<div className="line"></div>
-		</div>
-		<div className="row">
-			<div className="col">
-				<CheckedOutBooks heading="Table" books={[{title: "title", isbn: "0123456789101", status: "borrowed", favorite: true}]}/>
-			</div>
-			<div className="col">
-				<DonatedBooks heading="Table" books={[{title: "title", isbn: "0123456789101", status: ""}]}/>
-			</div>
-		</div>
-	</div>
-</>
+	</>
+}
