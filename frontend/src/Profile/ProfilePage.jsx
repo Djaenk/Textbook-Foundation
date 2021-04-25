@@ -18,9 +18,9 @@ export const ProfilePage = props =>{
 
 			<div className="row">
 				<div className="col">
-					<ProfileInfo heading="Profile Information" accountsPromise={accountsRepository.getProfile(sessionStorage.userId)}/>
+					<ProfileInfo heading="Profile Information" profilePromise={accountsRepository.getProfile(sessionStorage.userId)}/>
 				</div>
-				<Link to={ '/edit/' + sessionStorage.userId }>Edit your information... </Link>
+				<Link to={ '/edit/' + sessionStorage.userId }>Edit your account... </Link>
 			</div>
 
 			<div className="row">
