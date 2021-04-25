@@ -37,10 +37,16 @@ export const Book = props => {
 			props.history.push('/home');
 		});
 	};
+
+	const checkout = () => {
+		if (window.confirm('Are you sure you want to checkout this book?')){
+			bookApi.checkoutBook(sessionStorage.getItem('userId'), book[0].bookID);
+		}	
+	};
 	
 	return (<>
 		<Navigation />
-		<Link to='/home' className="m-4"><button type="button" class="btn btn-primary">Return to Home</button></Link>
+		<Link to='/home' className="m-4"><button type="button" className="btn btn-primary">Return to Home</button></Link>
 		{!book && (
 			<div className="text-center m-5"><h1>Loading...</h1></div>
 		)}
@@ -62,12 +68,17 @@ export const Book = props => {
 				}
 
 				{donor && 
-					<div className="border bg-secondary text-white text-center rounded float-right p-5">
+				<div className="border bg-secondary text-white text-center rounded float-right p-5">
+					{donor[0] && <>
 						<h3><u>{donor[0].username}</u></h3>
 						{donor[0].email}<br/>
 						{donor[0].phoneNumber}<br/>
-					</div>
-				}
+					</>}
+					{!donor[0] && <>
+						<span>Error retrieving donor information</span>
+					</>}
+				</div>}
+				
 				<div className="">		
 					<h1>{book[0].Title}</h1>
 					<b>Author:</b> {book[0].Author}<br/>
@@ -77,12 +88,15 @@ export const Book = props => {
 					<br/>
 					<b>Condition:</b> <Rating value={book[0].bookCondition}/><br/>
 
-					{book[0].donorID != window.sessionStorage.getItem('userID') && (
-						<button type="button" class="btn btn-primary d-block mt-2" onClick={() => alert("Not implemented")}>Check out</button>
+					{book[0].donorID == window.sessionStorage.getItem('userId') || (
+						book[0].borrowerID != null ||
+							(<button type="button" className="btn btn-primary d-block mt-2" onClick={() => checkout()}>Check out</button>)
+						// book[0].borrowerID != null ||
+						// 	(<button>Disabled</button>)
 					)}
-					{console.log(book[0].donorID, window.sessionStorage.getItem('userID'))}
-					{console.log(book[0].donorID == window.sessionStorage.getItem('userID'))}
-					{console.log(book[0].donorID != window.sessionStorage.getItem('userID'))}
+					{console.log(book[0].donorID, window.sessionStorage.getItem('userId'))}
+					{console.log(book[0].donorID == window.sessionStorage.getItem('userId'))}
+					{console.log(book[0].donorID != window.sessionStorage.getItem('userId'))}
 					{console.log(book[0].borrowerID, borrower)}
 
 				</div>
