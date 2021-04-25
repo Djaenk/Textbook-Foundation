@@ -50,7 +50,7 @@ export class Books{
 
     getRatings(ISBN) {
         return new Promise((resolve, reject) => {
-            axios.get(`${hostname}/api/ratings/${ISBN}`)
+            axios.get(`${hostname}/api/ratings?ISBN=${ISBN}`)
                 .then(response => {
                     resolve(response.data);
                 })
@@ -63,7 +63,7 @@ export class Books{
 
     getFavorites(userId) {
         return new Promise((resolve, reject) => {
-            axios.get(`${hostname}/api/favorites/${userId}`)
+            axios.get(`${hostname}/api/favorites?userID=${userId}`)
                 .then(response => {
                     resolve(response.data);
                 })
@@ -76,7 +76,7 @@ export class Books{
 
     getDonations(userId) {
         return new Promise((resolve, reject) => {
-            axios.get(`${hostname}/api/users/donations/${userId}`)
+            axios.get(`${hostname}/api/users/donations?userID=${userId}`)
                 .then(response => {
                     resolve(response.data);
                 })
@@ -89,7 +89,7 @@ export class Books{
 
     getBorrows(userId) {
         return new Promise((resolve, reject) => {
-            axios.get(`${hostname}/api/users/borrows/${userId}`)
+            axios.get(`${hostname}/api/users/borrows?userID=${userId}`)
                 .then(response => {
                     resolve(response.data);
                 })

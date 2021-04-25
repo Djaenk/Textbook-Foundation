@@ -8,13 +8,12 @@ export const BookTable = props => {
 	useEffect(() => {
 		const booksRepository = new Books();
 		booksRepository.getFavorites(sessionStorage.getItem('userId')).then(favoritesValue => {
-			console.log(favoritesValue);
 			props.booksPromise.then(booksValue => {
-				for (let book of booksValue){
+				for (let book of booksValue.data){
 					book.status = book.borrowerID ? 'Borrowed' : 'Donated';
-					book.favorite = favoritesValue.some(f => f.Title === book.Title);
+					book.favorite = favoritesValue.data.some(f => f.Title === book.Title);
 				}
-				setBooks(booksValue);
+				setBooks(booksValue.data);
 			})
 		});
 	});
@@ -31,8 +30,8 @@ export const BookTable = props => {
 			</thead>
 			<tbody>
 				{books.map(book =>
-					<tr key={book.id}>
-						<td className={book.favorite ? "" : "star"}>{book.title}</td>
+					<tr key={book.bookID}>
+						<td className={book.favorite ? "star" : ""}>{book.Title}</td>
 						<td>{book.ISBN}</td>
 						<td>{book.status}</td>
 					</tr>

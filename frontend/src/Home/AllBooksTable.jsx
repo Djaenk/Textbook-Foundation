@@ -16,15 +16,17 @@ export const AllBooksTable = props => {
 		props.booksPromise.then(value => {
 			for (let book of value.books){
 				booksRepository.getRatings(book.ISBN).then(ratings => {
-					console.log(ratings);
-					let average = Math.round(ratings.reduce((a, b) => a + b) / ratings.length);
+					if(ratings.data.length === 0){
+						ratings.data.push(0);
+					}
+					let average = Math.round(ratings.data.reduce((a, b) => a + b) / ratings.data.length);
 					book.rating = average;
 				});
 				book.status = book.borrowerID ? 'Borrowed' : 'Donated';
 			}
 			setBooks(value.books);
 		});
-	})
+	});
 
 	function handleSearch(){
 		let books = [];
