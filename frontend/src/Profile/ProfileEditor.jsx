@@ -2,53 +2,72 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { Navigation } from '../app/Navigation';
 import { Accounts } from '../api/accounts';
+import { Checkbox } from 'react-bootstrap';
 
 
 export class ProfileEditor extends React.Component {
     profileRepository = new Accounts();
 
     state = {
-        name: '',
-        email: '',
-        isEmployee: false,
-        departmentId: 0,
-        phoneNumbers: []
+        username: sessionStorage.username,
+        firstName: sessionStorage.firstName,
+        lastName: sessionStorage.lastName,
+        phoneNumbers: sessionStorage.phoneNumbers,
+        email: sessionStorage.email,
+        password: sessionStorage.password,
+        joinDate: sessionStorage.joinDate,
+        private: sessionStorage.private
     };
 
-    addPhone(phone) {
-        var phoneNumbers = this.state.phoneNumbers;
-        phoneNumbers.push(phone);
-        this.setState({ phoneNumbers });
-    }
-
     onSave() {
-        if (this.state.id) {
-            this.accountsRepository.updateAccount(this.state.id, this.state)
-            .then(account => {
-                this.setState({ redirect: '/' });
-            });
-        } else {
-            this.accountsRepository.createAccount(this.state)
-            .then(account => {
-                this.setState({ redirect: '/' });
-            });
-        }
+        this.profileRepository.updateProfile(this.state.id, this.state)
+        .then(account => {
+            this.setState({ redirect: '/profile' });
+        });
+
     }
 
     render() {
-        if (this.state.redirect) {
-            return <Redirect to={ this.state.redirect } />;
-        }
         return <>
         <form className="container">
-                <h1>Account Editor</h1>
+                <h3>Edit Your Profile</h3>
                 <div className="form-group">
-                    <label htmlFor="name">Name</label>
+                    <label htmlFor="username">User Name</label>
                     <input type="text"
-                        id="name"
-                        name="name"
-                        value={this.state.name}
-                        onChange={ event => this.setState({ name: event.target.value }) }
+                        id="username"
+                        name="username"
+                        value={this.state.username}
+                        onChange={ event => this.setState({ username: event.target.value }) }
+                        className="form-control" />
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="firstName">First Name</label>
+                    <input type="text"
+                        id="firstName"
+                        name="firstName"
+                        value={this.state.firstName}
+                        onChange={ event => this.setState({ firstName: event.target.value }) }
+                        className="form-control" />
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="lastName">Last Name</label>
+                    <input type="text"
+                        id="lastName"
+                        name="lastName"
+                        value={this.state.lastName}
+                        onChange={ event => this.setState({ lastName: event.target.value }) }
+                        className="form-control" />
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="phoneNumbers">Phone Number</label>
+                    <input type="number"
+                        id="phoneNumbers"
+                        name="phoneNumbers"
+                        value={this.state.phoneNumbers}
+                        onChange={ event => this.setState({ phoneNumbers: event.target.value }) }
                         className="form-control" />
                 </div>
 
@@ -63,33 +82,24 @@ export class ProfileEditor extends React.Component {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="isEmployee">
-                        <input type="checkbox"
-                            id="isEmployee"
-                            name="isEmployee"
-                            checked={this.state.isEmployee}
-                            onChange={ event => this.setState({ isEmployee: event.target.checked }) }
-                            />
-                        Is Employee
-                    </label>
-                </div>
+                    <label htmlFor="password">Password</label>
+                    <input type="password"
+                        id="password"
+                        name="password"
+                        value={this.state.password}
+                        onChange={ event => this.setState({ password: event.target.value }) }
+                        className="form-control" />
+                </div>                        
 
                 <div className="form-group">
-                    <label htmlFor="departmentId">Department</label>
-                    <select id="departmentId"
-                        name="departmentId"
-                        className="form-control"
-                        value={this.state.departmentId}
-                        onChange={ event => this.setState({ departmentId: event.target.value }) }>
-                            <option></option>
-                            {
-                                this.departments.map(x => <option key={ x.id } value={ x.id }>{ x.name }</option>)
-                            }
-                    </select>
+                    <label htmlFor="private">Keep your account private</label>
+                    <input type="checkbox"
+                        id="private"
+                        name="private"
+                        checked={this.state.private}
+                        onChange={ event => this.setState({ private: event.target.checked }) }
+                        />
                 </div>
-                        
-                <PhoneList phoneNumbers={ this.state.phoneNumbers } />
-                <PhoneEditor onPhoneAdded={ phone => this.addPhone(phone) } />
 
                 <div>
                     <button onClick={ () => this.onSave() }
