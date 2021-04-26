@@ -58,8 +58,7 @@ export class Register extends React.Component {
 	}
 
 
-	signUp = event => {
-		event.preventDefault();
+	signUp() {
 
 		const user = {
 			firstName: this.state.firstName,
