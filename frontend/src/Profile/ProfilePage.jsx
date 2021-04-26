@@ -16,34 +16,21 @@ export const ProfilePage = props =>{
 
 	return <>
 		<Navigation/>
-		<div className="container-fluid mt-3">
+		<div className="container mt-3">
 
 			<div className="row">
-				<div className="col">
+				<div className="col-md-4">
 					<ProfileInfo heading="Profile Information" profilePromise={accountsRepository.getProfile(id)}/>
+					{id === sessionStorage.userId && <Link to='/profile/edit' >Edit your account... </Link>}
 				</div>
-				{id === sessionStorage.userId && <Link to='/profile/edit' >Edit your account... </Link>}
-			</div>
-
-			<div className="row">
-				<div className="line"></div>
-			</div>	
-
-			<div className="row">
-				<div className="col">
+				<div className="col-md-8">
 					{/* <DonatedBooks heading="Donated Books" booksPromise={booksRespository.getDonations(sessionStorage.userId)}/> */}
-					<BookTable heading="Donated Books" booksPromise={booksRespository.getDonations(id)}/>
-				</div>
-			</div>
-
-			<div className="row">
-				<div className="line"></div>
-			</div>
-
-			<div className="row">
-				<div className="col">
+					<BookTable heading="Donated Books" booksPromise={booksRespository.getDonations(id)}/>				
+					<div className="line"></div>
 					{/* <BorrowedBooks heading="Borrowed Books" booksPromise={booksRespository.getBorrows(sessionStorage.userId)}/> */}
 					<BookTable heading="Borrowed Books" booksPromise={booksRespository.getBorrows(id)}/>
+					<div className="line"></div>
+					<BookTable heading="Favorited Books" booksPromise={booksRespository.getFavorites(id)}/>
 				</div>
 			</div>
 		</div>
