@@ -78,7 +78,6 @@ export const Book = props => {
 		<Navigation />
 		
 		<div className="container">
-		<Link to='/home' className="m-4"><button type="button" className="btn btn-primary">Return to Home</button></Link>
 		
 		{!book && (
 			<div className="text-center m-5"><h1>Loading...</h1></div>
@@ -90,17 +89,15 @@ export const Book = props => {
 				{!borrower && book[0].donorID == sessionStorage.getItem('userId') && 
 					<div className="border m-3 p-2 rounded clearfix">
 						<button type="button" class="btn btn-primary btn-danger float-right" onClick={deleteThis}>Cancel Listing</button>
-						<span className="">You are the donor for this listing.</span>
+						<div className="alert alert-info"><span className="">You are the donor for this listing.</span></div>
 					</div>
 				}
 
 				{book && borrower[0] && 
 					<div className="border m-3 p-2 rounded clearfix">
-						<span className="">This book was donated to {borrower && borrower[0].username} on {book[0].donationDate.substring(0,10)}.</span>
+						<div className="alert alert-info"><span className="">This book was donated to {borrower && borrower[0].username} on {book[0].donationDate.substring(0,10)}.</span></div>
 					</div>
 				}
-
-				
 				
 				<div className="row">
 					<div className="col-lg-4">
@@ -139,8 +136,9 @@ export const Book = props => {
 					{console.log(book[0].borrowerID, borrower)} */}
 
 				</div>
-			</div>
-			
+			</div><br/>
+			<Link to='/home' className="m-4"><button type="button" className="btn btn-primary">Return to Home</button></Link>
+
 			
 		</div>
 		)}</div>
