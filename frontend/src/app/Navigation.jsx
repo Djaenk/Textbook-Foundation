@@ -10,10 +10,10 @@ export const Navigation = props =>
 
 		<ul class="navbar navbar-nav font-weight-bold">
 			<li class="nav-item active pl-5">
-				<a class="nav-link" href="#">HOME</a>
+				<a class="nav-link" href="/home">HOME</a>
 			</li>
 			<li class="nav-item active pl-5">
-				<a class="nav-link" href="#">DONATE</a>
+				<a class="nav-link" href="/donate">DONATE</a>
 			</li>
 			<li class="nav-item active pl-5">
 				<a class="nav-link" href="#">BORROW</a>
