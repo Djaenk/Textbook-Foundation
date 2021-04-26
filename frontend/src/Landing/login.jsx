@@ -35,14 +35,14 @@ export class LoginPage extends React.Component {
 		.then(res => {
 			console.log(res);
 			if (true) { //Success
-				
+
 			} else { //Fail
 				this.setState(s => {
 					s.attempts++;
 					return s;
 				});
 			}
-	
+
 		});
 	}
 
@@ -66,7 +66,7 @@ export class LoginPage extends React.Component {
 			<div className="text-center m-5 p-5 border bg-light rounded">
 				<h1 className="">New member?</h1>
 				<div>Enter your personal details and start browsing.</div>
-				<div className="btn btn-primary rounded-pill m-4" onClick={() => this.props.signUp()}>SIGN UP</div> 
+				<div className="btn btn-primary rounded-pill m-4" onClick={() => this.props.signUp()}>SIGN UP</div>
     			</div>
 		</div>
 		);

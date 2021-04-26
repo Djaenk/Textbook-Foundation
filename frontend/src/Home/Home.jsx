@@ -7,6 +7,7 @@ import Books from '../api/books';
 export const Home = props => {
 	const booksRespository = new Books();
 
+<<<<<<< HEAD
 	return <>
 		<Navigation/>
 		<div className="container-fluid mt-3">	
@@ -25,6 +26,23 @@ export const Home = props => {
 				<div className="col">
 					<AllBooksTable heading="All Books" booksPromise={booksRespository.getBooks()}/>
 				</div>
+=======
+	<div className="container-fluid mt-3">
+		<div className="row">
+			<div className="col">
+				<BookTable heading="Table" books={[{title: "title", isbn: "0123456789101", status: "borrowed", favorite: true}]}/>
+			</div>
+			<div className="col">
+				<BookTable heading="Table" books={[{title: "title", isbn: "0123456789101", status: "borrowed"}]}/>
+			</div>
+		</div>
+		<div className="row">
+			<div className="line"></div>
+		</div>
+		<div className="row" style={{maxWidth: "1440px", margin: "0 auto"}}>
+			<div className="col">
+				<AllBooksTable heading="Table" books={[{title: "title", isbn: "0123456789101", status: "borrowed"}]}/>
+>>>>>>> Cesar
 			</div>
 		</div>
 	</>
