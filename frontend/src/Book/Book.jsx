@@ -12,6 +12,7 @@ export const Book = props => {
 	const [book, setBook] = useState(0);
 	const [donor, setDonor] = useState(0);
 	const [borrower, setBorrower] = useState(0);
+	// const [favorite, setFavorite] = useState(false);
 
 	useEffect(() => {
 
@@ -46,10 +47,39 @@ export const Book = props => {
 			bookApi.checkoutBook(sessionStorage.getItem('userId'), book[0].bookID);
 		}	
 	};
+
+	const favorite = () => {
+		bookApi.favoriteBook(book[0].ISBN, sessionStorage.getItem('userId'));
+	};
+
+	// const isFavorite = () => {
+
+	// 	bookApi.getFavorites(sessionStorage.getItem('userId')).then(favoritesValue => {
+	// 		let isFav = false;
+	// 			for (let myBook of book[0]){
+	// 				isFav = myBook.favorite = favoritesValue.data.some(f => f.Title === myBook.Title);
+	// 			}
+	// 		return isFav;
+	// 	});
+		
+		// console.log(myFavs);
+		// let isFav = false;
+		// for (let favBook in myFavs.data){
+		// 	console.log(favBook.data[0].ISBN);
+		// 	if (favBook.ISBN === book[0].ISBN){
+		// 		isFav = true;
+		// 	}
+		// }
+		// console.log(isFav);
+		// return isFav;
+	// };
 	
 	return (<>
 		<Navigation />
+		
+		<div className="container">
 		<Link to='/home' className="m-4"><button type="button" className="btn btn-primary">Return to Home</button></Link>
+		
 		{!book && (
 			<div className="text-center m-5"><h1>Loading...</h1></div>
 		)}
@@ -70,8 +100,12 @@ export const Book = props => {
 					</div>
 				}
 
-				{donor && 
-				<div className="border bg-secondary text-white text-center rounded float-right p-5">
+				
+				
+				<div className="row">
+					<div className="col-lg-4">
+						{donor && 
+				<div className="border bg-secondary text-white text-center rounded p-5">
 					{donor[0] && <>
 						<h3><u><Link to={ '/profile/' + donor[0].userID } >{donor[0].username}</Link></u></h3>
 						{donor[0].firstName + ' ' + donor[0].lastName}<br/>
@@ -82,9 +116,8 @@ export const Book = props => {
 						<span>Error retrieving donor information</span>
 					</>}
 				</div>}
-				
-				<div className="">		
-					<h1>{book[0].Title}</h1>
+						</div>	<div className="col-lg-8">
+							<h1>{book[0].Title}</h1>
 					<b>Author:</b> {book[0].Author}<br/>
 					<b>ISBN:</b> {book[0].ISBN}<br/>
 					<b>Publisher:</b> {book[0].Publisher}<br/>
@@ -97,18 +130,20 @@ export const Book = props => {
 							(<button type="button" className="btn btn-primary d-block mt-2" onClick={() => checkout()}>Check out</button>)
 						// book[0].borrowerID != null ||
 						// 	(<button>Disabled</button>)
-					)}
-					{console.log(book[0].donorID, window.sessionStorage.getItem('userId'))}
+					)}	{true && (<button type="button" className="btn btn-secondary" onClick={() => favorite()}>Favorite</button>)}
+							</div>	
+					
+					{/* {console.log(book[0].donorID, window.sessionStorage.getItem('userId'))}
 					{console.log(book[0].donorID == window.sessionStorage.getItem('userId'))}
 					{console.log(book[0].donorID != window.sessionStorage.getItem('userId'))}
-					{console.log(book[0].borrowerID, borrower)}
+					{console.log(book[0].borrowerID, borrower)} */}
 
 				</div>
 			</div>
 			
 			
 		</div>
-		)}
+		)}</div>
 	</>);
 }
 

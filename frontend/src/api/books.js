@@ -113,5 +113,18 @@ export class Books{
         });
     }
 
+    favoriteBook(ISBN, userID) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${hostname}/api/favorites/${ISBN}`, { userID })
+                .then(response => {
+                    resolve({ status: response.data.status, account: response.data.account });
+                })
+                .catch(err => {
+                    error(err);
+                    resolve({ status: false });
+                });
+        });
+    }
+
 }
 export default Books;

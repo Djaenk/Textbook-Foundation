@@ -563,10 +563,10 @@ module.exports = function routes(app, logger) {
     });
   });
 
-  //api/favorites/{bookID}/?user={userID}
-  app.post('/api/favorites/:bookID', (req, res) => {
-    var bookID = req.params.bookID;
-    var userID = req.param('user');
+  //api/favorites/{ISBN}/?user={userID}
+  app.post('/api/favorites/:ISBN', (req, res) => {
+    var ISBN = req.params.ISBN;
+    var userID = req.param('userID');
 
     console.log(req.body);
 
@@ -577,14 +577,14 @@ module.exports = function routes(app, logger) {
         res.status(400).send('Problem obtaining MySQL connection'); 
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
-        connection.query('INSERT INTO favorites(userID, ISBN) VALUES(?,?) ', [userID, bookID], function (err, rows, fields) {
+        connection.query('INSERT INTO favorites(userID, ISBN) VALUES(?,?) ', [userID, ISBN], function (err, rows, fields) {
           connection.release();
           if (err) {
             // if there is an error with the query, log the error
             logger.error("Problem inserting into test table: \n", err);
             res.status(400).send('Problem inserting into table'); 
           } else {
-            res.status(200).send(`Added ISBN: ${bookID} to User: ${userID}'s favorites!`);
+            res.status(200).send(`Added ISBN: ${ISBN} to User: ${userID}'s favorites!`);
           }
         });
       }
