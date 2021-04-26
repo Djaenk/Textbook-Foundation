@@ -46,9 +46,9 @@ export class Landing extends React.Component {
             this.setState({ invalidCred: true });
 
             //TEST - BYPASS LOGIN
-            this.setState({ invalidCred: false });
-            sessionStorage.setItem("isAuthenticated", "true");
-            sessionStorage.setItem("userId", 1);
+            // this.setState({ invalidCred: false });
+            // sessionStorage.setItem("isAuthenticated", "true");
+            // sessionStorage.setItem("userId", 1);
             //TEST - BYPASS LOGIN
         }
     }

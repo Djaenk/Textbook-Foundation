@@ -31,11 +31,14 @@ export const Book = props => {
 	});
 
 	const deleteThis = () => {
-		bookApi.deleteBook(book[0].bookID)
+		if (window.confirm('Are you sure you want to DELETE this book?\nThis action can not be undone.')){
+			bookApi.deleteBook(book[0].bookID)
 		.then(x => {
 			alert("Listing deleted successfully");
 			props.history.push('/home');
 		});
+		}
+		
 	};
 
 	const checkout = () => {
@@ -54,9 +57,9 @@ export const Book = props => {
 		<div className="w-100 p-3">
 			<div className="bg-light border p-4 clearfix">
 
-				{!borrower && book[0].donorID == window.sessionStorage.getItem('userID') && 
+				{!borrower && book[0].donorID == sessionStorage.getItem('userId') && 
 					<div className="border m-3 p-2 rounded clearfix">
-						<button type="button" class="btn btn-primary float-right" onClick={deleteThis}>Cancel Listing</button>
+						<button type="button" class="btn btn-primary btn-danger float-right" onClick={deleteThis}>Cancel Listing</button>
 						<span className="">You are the donor for this listing.</span>
 					</div>
 				}
@@ -70,7 +73,8 @@ export const Book = props => {
 				{donor && 
 				<div className="border bg-secondary text-white text-center rounded float-right p-5">
 					{donor[0] && <>
-						<h3><u>{donor[0].username}</u></h3>
+						<h3><u><Link to={ '/profile/' + donor[0].userID } >{donor[0].username}</Link></u></h3>
+						{donor[0].firstName + ' ' + donor[0].lastName}<br/>
 						{donor[0].email}<br/>
 						{donor[0].phoneNumber}<br/>
 					</>}

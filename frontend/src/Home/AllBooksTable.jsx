@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Books from '../api/books';
 import {StarFill, ArrowDownUp, Search} from 'react-bootstrap-icons';
+import { Link } from 'react-router-dom';
 
 export const AllBooksTable = props => {
 	const [books, setBooks] = React.useState([]);
@@ -17,10 +18,14 @@ export const AllBooksTable = props => {
 			for (let book of value.books){
 				booksRepository.getRatings(book.ISBN).then(ratings => {
 					if(ratings.data.length === 0){
-						ratings.data.push(0);
+						// ratings.data.push(0);
 					}
-					let average = Math.round(ratings.data.reduce((a, b) => a + b) / ratings.data.length);
+					else{
+						let average = Math.round(ratings.data.reduce(function(sum, current) {
+						return sum + current.rating;
+					}, 0) / ratings.data.length);
 					book.rating = average;
+				}
 				});
 				book.status = book.borrowerID ? 'Borrowed' : 'Donated';
 			}
@@ -29,19 +34,20 @@ export const AllBooksTable = props => {
 	});
 
 	function handleSearch(){
-		let books = [];
-		for (const book of props.books){
+		let bookSearch = [];
+		for (const book of books){
 			if(book.Title.toLowerCase().includes(search.toLowerCase())){
-				books.push(book)
+				bookSearch.push(book)
 			}
-			else if(book.ISBN.includes(search)){
-				books.push(book)
+			else if(String(book.ISBN).includes(search)){
+				bookSearch.push(book)
 			}
 			else if(book.status.includes(search.toLowerCase())){
-				books.push(book)
+				bookSearch.push(book)
 			}
 		}
-		setBooks(books);
+		console.log(bookSearch);
+		setBooks(bookSearch);
 		setPage(0);
 	}
 
@@ -91,13 +97,15 @@ export const AllBooksTable = props => {
 			<tbody>
 				{books.slice(page * perPage, (page + 1) * perPage).map(book =>
 					<tr key={book.bookID} className={(!book.favorite && favoritesOnly) ? "d-none" : ""}>
-						<td className={book.favorite ? "star" : ""}>{book.Title}</td>
+						<td className={book.favorite ? "star" : ""}><Link to={ '/books/' + book.bookID } >{book.Title}</Link></td>
 						<td>{book.ISBN}</td>
 						<td>{book.status}</td>
-						<td>{[...Array(book.rating).keys()].map(i =>
+						{/* <td>{[...Array(book.rating).keys()].map(i =>
 								<StarFill key={i}/>
 							)}
-						</td>
+						</td> */}
+						<td>{book.rating &&
+						[1,2,3,4,5].map(x => x > book.rating ? "" : <StarFill key={x}/>)}</td>
 					</tr>
 				)}
 			</tbody>

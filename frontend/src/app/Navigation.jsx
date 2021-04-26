@@ -40,7 +40,7 @@ return <>
 		  <NavLink to='/home' className='nav-link'>HOME</NavLink>
 		  <NavLink to='/donate' className="nav-link" >DONATE</NavLink>
 		  <NavLink exact to='/' className="nav-link" onClick={ () => logout() } >LOGOUT</NavLink>
-		  <NavLink to='/profile' ><ProfileIcon width="35" height="35"/></NavLink>
+		  <NavLink to={ '/profile/' + sessionStorage.userId }><ProfileIcon width="35" height="35"/></NavLink>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

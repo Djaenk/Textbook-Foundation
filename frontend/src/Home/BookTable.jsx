@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Books from '../api/books';
 import './BookTable.css';
 
@@ -31,7 +32,7 @@ export const BookTable = props => {
 			<tbody>
 				{books.map(book =>
 					<tr key={book.bookID}>
-						<td className={book.favorite ? "star" : ""}>{book.Title}</td>
+						<td className={book.favorite ? "star" : ""}><Link to={ '/books/' + book.bookID } >{book.Title}</Link></td>
 						<td>{book.ISBN}</td>
 						<td>{book.status}</td>
 					</tr>

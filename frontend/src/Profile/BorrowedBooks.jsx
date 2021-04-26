@@ -3,7 +3,7 @@ import Account from '../api/books';
 import './BookTable.css';
 import {ArrowDownUp, Search} from 'react-bootstrap-icons';
 
-export const DonatedBooks = props => {
+export const BorrowedBooks = props => {
 	const [books, setBooks] = React.useState([]);
 	const [field, setField] = React.useState(null);
 	const [asc, setAsc] = React.useState(true);

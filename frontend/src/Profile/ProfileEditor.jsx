@@ -2,33 +2,40 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { Navigation } from '../app/Navigation';
 import { Accounts } from '../api/accounts';
-import { Checkbox } from 'react-bootstrap';
+import { Checkbox, Nav } from 'react-bootstrap';
 
 
 export class ProfileEditor extends React.Component {
-    profileRepository = new Accounts();
+    accountsRepository = new Accounts();
 
     state = {
-        username: sessionStorage.username,
-        firstName: sessionStorage.firstName,
-        lastName: sessionStorage.lastName,
-        phoneNumbers: sessionStorage.phoneNumbers,
-        email: sessionStorage.email,
-        password: sessionStorage.password,
-        joinDate: sessionStorage.joinDate,
-        private: sessionStorage.private
+        username: "",
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        email: "",
+        password: "",
+        joinDate: "",
+        private: 0,
+        redirect: false
     };
 
     onSave() {
-        this.profileRepository.updateProfile(this.state.id, this.state)
-        .then(account => {
-            this.setState({ redirect: '/profile' });
-        });
-
+        this.accountsRepository.updateProfile(sessionStorage.userId, this.state)
+        .then(() =>
+        this.setState({ redirect: true }));
     }
 
     render() {
+
+        const { redirect } = this.state;
+
+        if (redirect) {
+        return <Redirect to={ '/profile/' + sessionStorage.userId } />;
+        }
+
         return <>
+        <Navigation />
         <form className="container">
                 <h3>Edit Your Profile</h3>
                 <div className="form-group">
@@ -66,7 +73,7 @@ export class ProfileEditor extends React.Component {
                     <input type="number"
                         id="phoneNumbers"
                         name="phoneNumbers"
-                        value={this.state.phoneNumbers}
+                        value={this.state.phoneNumber}
                         onChange={ event => this.setState({ phoneNumbers: event.target.value }) }
                         className="form-control" />
                 </div>
@@ -92,13 +99,13 @@ export class ProfileEditor extends React.Component {
                 </div>                        
 
                 <div className="form-group">
-                    <label htmlFor="private">Keep your account private</label>
+                    
                     <input type="checkbox"
                         id="private"
                         name="private"
                         checked={this.state.private}
                         onChange={ event => this.setState({ private: event.target.checked }) }
-                        />
+                        /> <label htmlFor="private">Keep your account private</label>
                 </div>
 
                 <div>
@@ -113,10 +120,10 @@ export class ProfileEditor extends React.Component {
     }
 
     componentDidMount() {
-        let id = +this.props.match.params.id;
+        let id = sessionStorage.userId;
         if (id) {
-            this.accountsRepository.getAccount(id)
-            .then(account => this.setState(account));
+            this.accountsRepository.getProfile(id)
+            .then(account => this.setState(account.data[0]));
         }
     }
 }
