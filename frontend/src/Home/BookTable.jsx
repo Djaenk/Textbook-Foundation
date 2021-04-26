@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Books from '../api/books';
 import './BookTable.css';
 
+<<<<<<< HEAD
 export const BookTable = props => {
 	const [books, setBooks] = React.useState([]);
 
@@ -23,6 +24,19 @@ export const BookTable = props => {
 		<h3 className="text-left m-3">{props.heading}</h3>
 		<table className="table table-sm text-left">
 			<thead className="thead-dark">
+=======
+export const BookTable = props =>
+<>
+	<h3 className="text-left m-3">{props.heading}</h3>
+	<table className="table table-sm text-left">
+		<thead className="thead-dark">
+			<th>Book Title</th>
+			<th>ISBN-13</th>
+			<th>Status</th>
+		</thead>
+		<tbody>
+			{props.books.map(book =>
+>>>>>>> Cesar
 				<tr>
 					<th>Book Title</th>
 					<th>ISBN-13</th>

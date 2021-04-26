@@ -3,9 +3,9 @@ import { NavLink } from 'react-router-dom';
 import { ProfileIcon } from './Icons'
 import { Navbar, Nav, NavItem, NavDropdown, MenuItem } from 'react-bootstrap';
 
-export const Navigation = props => {
-
-	{/* <nav id="navigation" className="navbar navbar-expand-sm navbar-dark bg-dark d-flex justify-content-between" style={{height: 70}}>
+export const Navigation = props =>
+<>
+	<nav id="navigation" className="navbar navbar-expand-sm navbar-dark bg-dark d-flex justify-content-between" style={{height: 70}}>
 		<a className="navbar-brand">
 			<img src="textBookFoundation_logoWhite.png" alt="Textbook Foundation Logo"/>
 		</a>
