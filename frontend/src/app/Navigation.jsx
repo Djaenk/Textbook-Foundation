@@ -30,7 +30,7 @@ export const Navigation = props => {
 		sessionStorage.setItem("isAuthenticated", "false");
 
 	};
-	
+
 return <>
 	<Navbar bg="dark" expand="lg" className="navbar navbar-expand-md navbar-dark bg-dark d-flex justify-content-between" >
         <Navbar.Brand href="/home"><img className="mw-50" src={require('../images/textbookFoundation_logoWhite.png')} alt="Textbook Foundation Logo"/></Navbar.Brand>
