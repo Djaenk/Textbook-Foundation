@@ -5,7 +5,7 @@ import { Accounts } from '../api/accounts'
 
 export class Register extends React.Component {
 
-	account = new Accounts();
+	accountRepository = new Accounts();
 
 	state = {
 			firstName: "",
@@ -62,7 +62,7 @@ export class Register extends React.Component {
 
 	signUp() {
 
-		this.account.register(this.state)
+		this.accountRepository.register(this.state)
             .then(account => {
                 this.setState({ redirect: '/' });
             });
