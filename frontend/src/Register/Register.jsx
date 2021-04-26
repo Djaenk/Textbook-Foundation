@@ -70,11 +70,13 @@ export class Register extends React.Component {
 			password: this.state.password
 		};
 
-		axios.post(registerURL,{ user })
+		axios.post('/users',{ user })
 			.then(res => {
 				console.log(res);
 				console.log(res.data);
-			})
+			}).catch((error) => {
+                console.log(error)
+      });
 	}
 
 	render(){
