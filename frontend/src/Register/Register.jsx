@@ -1,12 +1,13 @@
 import React from 'react';
 import axios from 'axios';
 import { Navigation } from '../app/Navigation';
+import { Accounts } from '../api/accounts'
 
 export class Register extends React.Component {
 
-	constructor(props){
-		super(props);
-		this.state = {
+	account = new Accounts();
+
+	state = {
 			firstName: "",
 			lastName: "",
 			number: "",
@@ -15,7 +16,6 @@ export class Register extends React.Component {
 			password: "",
 			private: 0
 		};
-	}
 
 	setName(n) {
 		this.setState(s => {
@@ -71,13 +71,10 @@ export class Register extends React.Component {
 					password: this.state.password
 		};
 
-		axios.post("register", { user })
-			.then(res => {
-				console.log(res);
-				console.log(res.data);
-			}).catch((error) => {
-                console.log(error)
-      });
+		this.account.register(this.state)
+            .then(account => {
+                this.setState({ redirect: '/' });
+            });
 	}
 
 	render(){
