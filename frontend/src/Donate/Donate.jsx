@@ -10,10 +10,10 @@ export const Donate = props =>
         <h2>Donate</h2>
         <div className="form-group mt-5">
           <label htmlFor="exampleInputEmail1">Book Search:</label>
-          <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Title or ISBN-13" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="button">Search</button>
+          <div className="input-group mb-3">
+            <input type="text" className="form-control" placeholder="Title or ISBN-13" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
+            <div className="input-group-append">
+              <button className="btn btn-outline-secondary" type="button">Search</button>
             </div>
           </div>
         </div>
@@ -28,9 +28,9 @@ export const Donate = props =>
           <label htmlFor="exampleInputPassword1">ISBN-13</label>
           <input type="text" className="form-control" id="exampleInputPassword1" placeholder="ISBN-13 (numbers only)"/>
         </div>
-        <div class="form-group">
+        <div className="form-group">
           <label for="exampleFormControlSelect1">Condition</label>
-          <select class="form-control" id="exampleFormControlSelect1">
+          <select className="form-control" id="exampleFormControlSelect1">
             <option>Excellent</option>
             <option>Good</option>
             <option>Fair</option>

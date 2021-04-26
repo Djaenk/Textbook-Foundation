@@ -2,17 +2,19 @@ import React from 'react';
 import axios from 'axios';
 import { Navigation } from '../app/Navigation';
 
-const registerURL = "";
-
 export class Register extends React.Component {
 
-	state = {
-		firstName: "",
-		lastName: "",
-		number: "",
-		email: "",
-		userName: "",
-		password: ""
+	constructor(props){
+		super(props);
+		this.state = {
+			firstName: "",
+			lastName: "",
+			number: "",
+			email: "",
+			userName: "",
+			password: "",
+			private: 0
+		};
 	}
 
 	setName(n) {
@@ -61,15 +63,15 @@ export class Register extends React.Component {
 	signUp() {
 
 		const user = {
-			firstName: this.state.firstName,
-			lastName: this.state.lastName,
-			number: this.state.number,
-			email: this.state.email,
-			userName: this.state.userName,
-			password: this.state.password
+					firstName: this.state.firstName,
+					lastName: this.state.lastName,
+					number: this.state.number,
+					email: this.state.email,
+					userName: this.state.userName,
+					password: this.state.password
 		};
 
-		axios.post('/users',{ user })
+		axios.post("register", { user })
 			.then(res => {
 				console.log(res);
 				console.log(res.data);
