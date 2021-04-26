@@ -15,32 +15,32 @@ export class Register extends React.Component {
 			userName: "",
 			password: "",
 			private: 0
-		};
+	}
 
 	setName(n) {
 		this.setState(s => {
-			s.userName = n;
+			s.firstName = n;
 			return s;
 		});
 	}
 
 	setLast(l) {
 		this.setState(s => {
-			s.password = l;
+			s.lastName = l;
 			return s;
 		});
 	}
 
 	setPhone(f) {
 		this.setState(s => {
-			s.password = f;
+			s.number = f;
 			return s;
 		});
 	}
 
 	setEmail(e) {
 		this.setState(s => {
-			s.password = e;
+			s.email = e;
 			return s;
 		});
 	}
@@ -61,15 +61,6 @@ export class Register extends React.Component {
 
 
 	signUp() {
-
-		const user = {
-					firstName: this.state.firstName,
-					lastName: this.state.lastName,
-					number: this.state.number,
-					email: this.state.email,
-					userName: this.state.userName,
-					password: this.state.password
-		};
 
 		this.account.register(this.state)
             .then(account => {
