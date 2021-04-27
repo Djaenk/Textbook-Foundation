@@ -20,7 +20,7 @@ export const BookTable = props => {
 	});
 
 	return <>
-		<h3 className="text-left m-3">{props.heading}</h3>
+		<h3 className="text-left m-3">{props.heading} ({books.length})</h3>
 		<table className="table table-sm text-left">
 			<thead className="thead-dark">
 				<tr>

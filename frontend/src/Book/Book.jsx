@@ -12,7 +12,7 @@ export const Book = props => {
 	const [book, setBook] = useState(0);
 	const [donor, setDonor] = useState(0);
 	const [borrower, setBorrower] = useState(0);
-	// const [favorite, setFavorite] = useState(false);
+	const [btnFav, setBtnFav] = useState(false);
 
 	useEffect(() => {
 
@@ -95,7 +95,7 @@ export const Book = props => {
 
 				{book && borrower[0] && 
 					<div className="border m-3 p-2 rounded clearfix">
-						<div className="alert alert-info"><span className="">This book was donated to {borrower && borrower[0].username} on {book[0].donationDate.substring(0,10)}.</span></div>
+						<div className="alert alert-info"><span className="">This book was donated to <Link to={'/profile/' + borrower[0].userID}>{borrower && borrower[0].username}</Link> on {book[0].donationDate.substring(0,10)}.</span></div>
 					</div>
 				}
 				
@@ -104,8 +104,8 @@ export const Book = props => {
 						{donor && 
 				<div className="border bg-secondary text-white text-center rounded p-5">
 					{donor[0] && <>
-						<h3><u><Link to={ '/profile/' + donor[0].userID } >{donor[0].username}</Link></u></h3>
-						{donor[0].firstName + ' ' + donor[0].lastName}<br/>
+						<h3>{donor[0].firstName + ' ' + donor[0].lastName}</h3>
+						<p><Link to={ '/profile/' + donor[0].userID } className="text-white">{donor[0].username} -{'>'}</Link></p>
 						{donor[0].email}<br/>
 						{donor[0].phoneNumber}<br/>
 					</>}

@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Navigation } from '../app/Navigation';
 import { Accounts } from '../api/accounts'
+import { Redirect } from 'react-router';
 
 export class Register extends React.Component {
 
@@ -12,9 +13,10 @@ export class Register extends React.Component {
 			lastName: "",
 			number: "",
 			email: "",
-			userName: "",
+			username: "",
 			password: "",
-			private: 0
+			private: 0,
+			redirect: false
 	};
 
 	setName(n) {
@@ -47,7 +49,7 @@ export class Register extends React.Component {
 
 	setUser(u) {
 		this.setState(s => {
-			s.userName = u;
+			s.username = u;
 			return s;
 		});
 	}
@@ -61,18 +63,24 @@ export class Register extends React.Component {
 
 
 	signUp() {
-		this.accountRepository.register(this.state)
-            .then(account => {
-            });
+			this.accountRepository.register(this.state)
+            .then(this.setState({redirect: true}));
 	}
 
 	render(){
-			return(
+		const { redirect } = this.state;
+
+		if (redirect) {
+			return <Redirect to='/'/>;
+		}	
+		return(
 				<>
 					<Navigation/>
 
 				     <div>
-				     <form id="register-form" className="col-sm-9 col-md-7 col-lg-4 mt-5 mx-auto border-0">
+				     <form id="register-form" 
+					 className="col-sm-9 col-md-7 col-lg-4 mt-5 mx-auto border-0"
+					 onSubmit={() => this.signUp()}>
 				         <h2 className="text-center">Sign Up</h2>
 				         <p className="text-center text-secondary">Please enter your personal information.</p>
 				         <div className="form-label-group">
@@ -80,6 +88,7 @@ export class Register extends React.Component {
 				             <input
 				                type="text"
 				                id="first-name"
+								placeholder="John"
 				                className="form-control"
 												onChange={e => this.setName(e.target.value)}/>
 				         </div>
@@ -88,47 +97,54 @@ export class Register extends React.Component {
 				             <input
 				                type="text"
 				                id="last-name"
+								placeholder="Smith"
 				                className="form-control"
 												onChange={e => this.setLast(e.target.value)}/>
 				         </div>
 				         <div className="form-label-group mt-2">
-				             <label htmlFor="phone">Number</label>
+				             <label htmlFor="phone">Phone Number</label>
 				             <input
-				                type="text"
+				                type="tel"
 				                id="phone"
+								pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+								placeholder="214-789-8000"
 				                className="form-control"
 												onChange={e => this.setPhone(e.target.value)}/>
 				         </div>
 				         <div className="form-label-group mt-2">
 				             <label htmlFor="email">Email</label>
 				             <input
-				                type="text"
+				                type="email"
 				                id="email"
+								placeholder="jsmith@smu.edu"
 				                className="form-control"
 												onChange={e => this.setEmail(e.target.value)}/>
 				         </div>
 				         <div className="form-label-group mt-2">
-				             <label htmlFor="username">Username</label>
+				             <label htmlFor="username">Username*</label>
 				             <input
 				                type="text"
 				                id="username"
+								placeholder="jsmith"
 				                className="form-control"
-												onChange={e => this.setUser(e.target.value)}/>
+								onChange={e => this.setUser(e.target.value)}
+								required/>
 				         </div>
 				         <div className="form-label-group mt-2">
-				             <label htmlFor="password">Password</label>
+				             <label htmlFor="password">Password*</label>
 				             <input
 				                type="password"
 				                id="password"
 				                className="form-control"
-												onChange={e => this.setPass(e.target.value)}/>
+								onChange={e => this.setPass(e.target.value)}
+								required/>
 				         </div>
 
 				         <div id="login-button-container" className="text-center mt-4">
 				             <button
 				                type="submit"
 				                className="btn btn-info"
-												 onClick={() => this.signUp()}>
+								onSubmit={() => this.signUp()}>
 				                Sign Up
 				             </button>
 				         </div>

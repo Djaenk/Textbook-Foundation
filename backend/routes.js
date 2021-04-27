@@ -471,6 +471,36 @@ module.exports = function routes(app, logger) {
     });
   });
 
+  // GET books favorited by a user
+  // /api/favorites/{userID}
+  app.get('/api/favorites/:ISBN', (req, res) => {
+    var ISBN = req.param('ISBN');
+    var userID = req.param('userID');
+    // obtain a connection from our pool of connections
+    pool.getConnection(function (err, connection){
+      if(err){
+        // if there is an issue obtaining a connection, release the connection instance and log the error
+        logger.error('Problem obtaining MySQL connection',err)
+        res.status(400).send('Problem obtaining MySQL connection'); 
+      } else {
+        // if there is no issue obtaining a connection, execute query and release connection
+        connection.query('select books.* from favorites right join books on favorites.ISBN = books.ISBN where favorites.userID = (?) && books.ISBN = (?) LIMIT 1', [userID, ISBN], function (err, rows, fields) {
+          connection.release();
+          if (err) {
+            // if there is an error with the query, log the error
+            logger.error("Problem getting from table: \n", err);
+            res.status(400).send('Problem getting table'); 
+          } else {
+            console.log(rows)
+            res.status(200).json({
+              "data": rows
+            });
+          }
+        });
+      }
+    });
+  });
+
   // GET books wishlisted by a user
   // /api/wishlist/{userID}
   app.get('/api/wishlist', (req, res) => {
@@ -529,39 +559,39 @@ module.exports = function routes(app, logger) {
     });
   });
   
-   // 
-   app.post('/api/users', (req, res) => {
-    var firstName = req.body.firstName;
-    var lastName = req.body.lastName;
-    var phoneNumber = req.body.phoneNumber;
-    var email = req.body.email;
-    var username = req.param('username');
-    var password = req.param('password');
-    var private = req.body.private;
-    let joinDate = new Date();
+  //  // 
+  //  app.post('/api/users', (req, res) => {
+  //   var firstName = req.body.firstName;
+  //   var lastName = req.body.lastName;
+  //   var phoneNumber = req.body.phoneNumber;
+  //   var email = req.body.email;
+  //   var username = req.param('username');
+  //   var password = req.param('password');
+  //   var private = req.body.private;
+  //   let joinDate = new Date();
 
-    console.log(req.body);
-    // obtain a connection from our pool of connections
-    pool.getConnection(function (err, connection){
-      if(err){
-        // if there is an issue obtaining a connection, release the connection instance and log the error
-        logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
-      } else {
-        // if there is no issue obtaining a connection, execute query and release connection
-        connection.query('INSERT INTO users(firstName, lastName, phoneNumber, email, username, password, private, joinDate) VALUES(?,?,?,?,?,?,?,?) ', [firstName, lastName, phoneNumber, email, username, password, private, joinDate], function (err, rows, fields) {
-          connection.release();
-          if (err) {
-            // if there is an error with the query, log the error
-            logger.error("Problem inserting into test table: \n", err);
-            res.status(400).send('Problem inserting into table'); 
-          } else {
-            res.status(200).send(`Added ${req.body.firstName} ${req.body.lastName} to the table!`);
-          }
-        });
-      }
-    });
-  });
+  //   console.log(req.body);
+  //   // obtain a connection from our pool of connections
+  //   pool.getConnection(function (err, connection){
+  //     if(err){
+  //       // if there is an issue obtaining a connection, release the connection instance and log the error
+  //       logger.error('Problem obtaining MySQL connection',err)
+  //       res.status(400).send('Problem obtaining MySQL connection'); 
+  //     } else {
+  //       // if there is no issue obtaining a connection, execute query and release connection
+  //       connection.query('INSERT INTO users(firstName, lastName, phoneNumber, email, username, password, private, joinDate) VALUES(?,?,?,?,?,?,?,?) ', [firstName, lastName, phoneNumber, email, username, password, private, joinDate], function (err, rows, fields) {
+  //         connection.release();
+  //         if (err) {
+  //           // if there is an error with the query, log the error
+  //           logger.error("Problem inserting into test table: \n", err);
+  //           res.status(400).send('Problem inserting into table'); 
+  //         } else {
+  //           res.status(200).send(`Added ${req.body.firstName} ${req.body.lastName} to the table!`);
+  //         }
+  //       });
+  //     }
+  //   });
+  // });
 
   //api/favorites/{ISBN}/?user={userID}
   app.post('/api/favorites/:ISBN', (req, res) => {
