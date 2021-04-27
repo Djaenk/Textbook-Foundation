@@ -7,12 +7,17 @@ import Accounts from '../api/accounts';
 import { ProfileInfo } from './ProfileInfo';
 import { Link } from 'react-router-dom';
 import { BookTable } from '../Home/BookTable';
+import { Redirect } from 'react-router-dom';
 
 
 export const ProfilePage = props =>{
 	const {id} = props.match.params;
 	const booksRepository = new Books();
 	const accountsRepository = new Accounts();
+
+	if (sessionStorage.getItem("isAuthenticated") === "false") {
+		return <Redirect to="/" />;
+	}
 
 	return <>
 		<Navigation/>

@@ -12,6 +12,7 @@ export const Book = props => {
 	const [book, setBook] = useState(0);
 	const [donor, setDonor] = useState(0);
 	const [borrower, setBorrower] = useState(0);
+	const [ratings, setRatings] = useState([]);
 	const [btnFav, setBtnFav] = useState(false);
 
 	useEffect(() => {
@@ -29,6 +30,12 @@ export const Book = props => {
 			acctApi.getProfile(book[0].borrowerID)
 			.then(x => setBorrower(x.data));
 		}
+
+		if (book) {
+			bookApi.getRatings(book[0].ISBN)
+		.then(x => setRatings(x.data));
+		}
+
 	});
 
 	const deleteThis = () => {
@@ -112,24 +119,46 @@ export const Book = props => {
 					{!donor[0] && <>
 						<span>Error retrieving donor information</span>
 					</>}
+					
 				</div>}
-						</div>	<div className="col-lg-8">
+						</div>	
+						
+						<div className="col-lg-8">
+							<div className="btn-group float-md-right"><span className="">{book[0].donorID == window.sessionStorage.getItem('userId') || (
+						book[0].borrowerID != null ||
+							(<button type="button" className="btn btn-primary d-block mt-2" onClick={() => checkout()}>Checkout</button>)
+						// book[0].borrowerID != null ||
+						// 	(<button>Disabled</button>)
+					)}	{true && (<button type="button" className="btn btn-info d-block mt-2" onClick={() => favorite()}>Favorite </button>)}</span></div>
+
+
 							<h1>{book[0].Title}</h1>
 					<b>Author:</b> {book[0].Author}<br/>
 					<b>ISBN:</b> {book[0].ISBN}<br/>
 					<b>Publisher:</b> {book[0].Publisher}<br/>
 					<b>Year:</b> {book[0].publicationDate.substring(0,4)}<br/>
 					<br/>
-					<b>Condition:</b> <Rating value={book[0].bookCondition}/><br/>
-
-					{book[0].donorID == window.sessionStorage.getItem('userId') || (
-						book[0].borrowerID != null ||
-							(<button type="button" className="btn btn-primary d-block mt-2" onClick={() => checkout()}>Check out</button>)
-						// book[0].borrowerID != null ||
-						// 	(<button>Disabled</button>)
-					)}	{true && (<button type="button" className="btn btn-secondary" onClick={() => favorite()}>Favorite</button>)}
-							</div>	
-					
+					<b>Condition:</b> <Rating value={book[0].bookCondition}/><br/><br/>
+				
+					<div>
+						<table className="table table-sm text-left">
+						<thead className="thead-dark">
+							<tr>
+								<th>Rating</th>
+								<th>User</th>
+							</tr>
+						</thead>
+						<tbody>
+							{ratings.map((rating, index) =>
+								<tr key={index}>
+									<td className=""><Rating value={rating.rating} /> ({rating.rating})</td>
+									<td><Link to={ '/profile/' + rating.borrowerID } >{rating.borrowerID}</Link></td>
+								</tr>
+							)}
+						</tbody>
+					</table>
+					</div>
+					</div>
 					{/* {console.log(book[0].donorID, window.sessionStorage.getItem('userId'))}
 					{console.log(book[0].donorID == window.sessionStorage.getItem('userId'))}
 					{console.log(book[0].donorID != window.sessionStorage.getItem('userId'))}
@@ -139,6 +168,7 @@ export const Book = props => {
 			</div><br/>
 			<Link to='/home' className="m-4"><button type="button" className="btn btn-primary">Return to Home</button></Link>
 
+			
 			
 		</div>
 		)}</div>
