@@ -9,11 +9,11 @@ export const BookTable = props => {
 		const booksRepository = new Books();
 		booksRepository.getFavorites(sessionStorage.getItem('userId')).then(favoritesValue => {
 			props.booksPromise.then(booksValue => {
-				for (let book of booksValue){
+				for (let book of booksValue.books){
 					book.status = book.borrowerID ? 'Borrowed' : 'Donated';
 					book.favorite = favoritesValue.some(f => f.Title === book.Title);
 				}
-				setBooks(booksValue);
+				setBooks(booksValue.books);
 			})
 		});
 	}, []);
