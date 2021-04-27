@@ -15,7 +15,7 @@ export class Register extends React.Component {
 			userName: "",
 			password: "",
 			private: 0
-	}
+	};
 
 	setName(n) {
 		this.setState(s => {
@@ -61,10 +61,8 @@ export class Register extends React.Component {
 
 
 	signUp() {
-
 		this.accountRepository.register(this.state)
             .then(account => {
-                this.setState({ redirect: '/' });
             });
 	}
 
@@ -74,7 +72,7 @@ export class Register extends React.Component {
 					<Navigation/>
 
 				     <div>
-				     <form id="register-form" className="col-sm-9 col-md-7 col-lg-4 mt-5 mx-auto border-0" onSubmit={this.signUp}>
+				     <form id="register-form" className="col-sm-9 col-md-7 col-lg-4 mt-5 mx-auto border-0">
 				         <h2 className="text-center">Sign Up</h2>
 				         <p className="text-center text-secondary">Please enter your personal information.</p>
 				         <div className="form-label-group">
@@ -129,7 +127,8 @@ export class Register extends React.Component {
 				         <div id="login-button-container" className="text-center mt-4">
 				             <button
 				                type="submit"
-				                className="btn btn-info">
+				                className="btn btn-info"
+												 onClick={() => this.signUp()}>
 				                Sign Up
 				             </button>
 				         </div>
