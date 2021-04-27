@@ -13,7 +13,7 @@ export const Book = props => {
 	const [donor, setDonor] = useState(0);
 	const [borrower, setBorrower] = useState(0);
 	const [ratings, setRatings] = useState([]);
-	const [btnFav, setBtnFav] = useState(false);
+	const [isFav, setIsFav] = useState(0);
 
 	useEffect(() => {
 
@@ -34,6 +34,12 @@ export const Book = props => {
 		if (book) {
 			bookApi.getRatings(book[0].ISBN)
 		.then(x => setRatings(x.data));
+		}
+
+		if (book) {
+			bookApi.getFavorite(sessionStorage.getItem('userId'), book[0].ISBN).then(favoritesValue => {
+				setIsFav(favoritesValue.data.length);
+			});
 		}
 
 	});
@@ -58,28 +64,7 @@ export const Book = props => {
 	const favorite = () => {
 		bookApi.favoriteBook(book[0].ISBN, sessionStorage.getItem('userId'));
 	};
-
-	// const isFavorite = () => {
-
-	// 	bookApi.getFavorites(sessionStorage.getItem('userId')).then(favoritesValue => {
-	// 		let isFav = false;
-	// 			for (let myBook of book[0]){
-	// 				isFav = myBook.favorite = favoritesValue.data.some(f => f.Title === myBook.Title);
-	// 			}
-	// 		return isFav;
-	// 	});
 		
-		// console.log(myFavs);
-		// let isFav = false;
-		// for (let favBook in myFavs.data){
-		// 	console.log(favBook.data[0].ISBN);
-		// 	if (favBook.ISBN === book[0].ISBN){
-		// 		isFav = true;
-		// 	}
-		// }
-		// console.log(isFav);
-		// return isFav;
-	// };
 	
 	return (<>
 		<Navigation />
@@ -94,10 +79,10 @@ export const Book = props => {
 			<div className="bg-light border p-4 clearfix">
 
 				{!borrower && book[0].donorID == sessionStorage.getItem('userId') && 
-					<div className="border m-3 p-2 rounded clearfix">
-						<button type="button" className="btn btn-primary btn-danger float-right" onClick={deleteThis}>Cancel Listing</button>
+					<><div className="border m-3 p-2 rounded clearfix">
 						<div className="alert alert-info"><span className="">You are the donor for this listing.</span></div>
 					</div>
+				</>
 				}
 
 				{book && borrower[0] && 
@@ -124,12 +109,18 @@ export const Book = props => {
 						</div>	
 						
 						<div className="col-lg-8">
-							<div className="btn-group float-md-right"><span className="">{book[0].donorID == window.sessionStorage.getItem('userId') || (
-						book[0].borrowerID != null ||
+							<div className="btn-group float-md-right"><span className="">
+								{!borrower && book[0].donorID == sessionStorage.getItem('userId') && 
+								<button type="button" className="btn btn-primary btn-danger d-block mt-2" onClick={deleteThis}>Cancel Listing</button>
+								}
+								{book[0].donorID == window.sessionStorage.getItem('userId') || (
+								book[0].borrowerID != null ||
 							(<button type="button" className="btn btn-primary d-block mt-2" onClick={() => checkout()}>Checkout</button>)
-						// book[0].borrowerID != null ||
-						// 	(<button>Disabled</button>)
-					)}	{true && (<button type="button" className="btn btn-info d-block mt-2" onClick={() => favorite()}>Favorite </button>)}</span></div>
+					)}	
+
+					{true && (<button type="button" className={`btn btn-info ${isFav ? "disabled" : "active"} d-block mt-2`} onClick={() => favorite()}  >Favorite </button>)}
+					</span>
+					</div>
 
 
 							<h1>{book[0].Title}</h1>
@@ -159,16 +150,10 @@ export const Book = props => {
 					</table>
 					</div>
 					</div>
-					{/* {console.log(book[0].donorID, window.sessionStorage.getItem('userId'))}
-					{console.log(book[0].donorID == window.sessionStorage.getItem('userId'))}
-					{console.log(book[0].donorID != window.sessionStorage.getItem('userId'))}
-					{console.log(book[0].borrowerID, borrower)} */}
 
 				</div>
 			</div><br/>
 			<Link to='/home' className="m-4"><button type="button" className="btn btn-primary">Return to Home</button></Link>
-
-			
 			
 		</div>
 		)}</div>

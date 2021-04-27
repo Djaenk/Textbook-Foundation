@@ -14,6 +14,7 @@ export const AllBooksTable = props => {
 
 	useEffect(() => {
 		const booksRepository = new Books();
+		booksRepository.getFavorites(sessionStorage.getItem('userId')).then(favoritesValue => {
 		props.booksPromise.then(value => {
 			for (let book of value.books){
 				booksRepository.getRatings(book.ISBN).then(ratings => {
@@ -28,9 +29,11 @@ export const AllBooksTable = props => {
 				}
 				});
 				book.status = book.borrowerID ? 'Borrowed' : 'Donated';
+				book.favorite = favoritesValue.data.some(f => f.Title === book.Title);
 			}
 			setBooks(value.books);
 		});
+	});
 	}, [search]);
 
 	function handleSearch(){

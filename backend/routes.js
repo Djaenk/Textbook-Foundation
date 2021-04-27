@@ -470,8 +470,8 @@ module.exports = function routes(app, logger) {
     });
   });
 
-  // GET books favorited by a user
-  // /api/favorites/{userID}
+  // GET is specific book is favorited by a user
+  // /api/favorites/{ISBN}?userID=userID
   app.get('/api/favorites/:ISBN', (req, res) => {
     var ISBN = req.param('ISBN');
     var userID = req.param('userID');

@@ -113,6 +113,19 @@ export class Books{
         })
     }
 
+    getFavorite(userID, ISBN) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${hostname}/api/favorites/${ISBN}?userID=${userID}`)
+                .then(response => {
+                    resolve(response.data);
+                })
+                .catch(err => {
+                    console.error(err);
+                    reject(err);
+                });
+        })
+    }
+
     getDonations(userId) {
         return new Promise((resolve, reject) => {
             axios.get(`${hostname}/api/users/donations?userID=${userId}`)
