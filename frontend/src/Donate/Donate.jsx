@@ -29,12 +29,8 @@ export const Donate = props => {
 	};
 
 	useEffect(() => {
-		if (sessionStorage.getItem("isAuthenticated") === "false") {
-			return <Redirect to="/" />;
-		}
-		else {
-			setDonor(sessionStorage.getItem('userId'));
-		}
+
+		setDonor(sessionStorage.getItem('userId'));
 
 		if (!book) {
 			bookApi.getBookIsbn(search).then( bookValues => {
@@ -78,7 +74,9 @@ export const Donate = props => {
 		// donateState.setState({title: title});
 		bookApi.postBook(donateState, isbn);
 	}
-
+	if (sessionStorage.getItem("isAuthenticated") === "false") {
+		return <Redirect to="/" />;
+	}
 		return<>
 				<Navigation/>
 			  <div>
