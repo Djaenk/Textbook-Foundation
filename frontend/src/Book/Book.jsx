@@ -88,7 +88,7 @@ export const Book = props => {
 
 				{!borrower && book[0].donorID == sessionStorage.getItem('userId') && 
 					<div className="border m-3 p-2 rounded clearfix">
-						<button type="button" class="btn btn-primary btn-danger float-right" onClick={deleteThis}>Cancel Listing</button>
+						<button type="button" className="btn btn-primary btn-danger float-right" onClick={deleteThis}>Cancel Listing</button>
 						<div className="alert alert-info"><span className="">You are the donor for this listing.</span></div>
 					</div>
 				}
