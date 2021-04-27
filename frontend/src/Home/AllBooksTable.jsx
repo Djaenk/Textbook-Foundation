@@ -13,16 +13,18 @@ export const AllBooksTable = props => {
 
 	useEffect(() => {
 		const booksRepository = new Books();
-		props.booksPromise.then(value => {
-			for (let book of value.books){
-				booksRepository.getRatings(book.ISBN).then(ratings => {
-					console.log(ratings);
-					let average = Math.round(ratings.reduce((a, b) => a + b) / ratings.length);
-					book.rating = average;
-				});
-				book.status = book.borrowerID ? 'Borrowed' : 'Donated';
-			}
-			setBooks(value.books);
+		booksRepository.getFavorites(sessionStorage.getItem('userId')).then(favoritesValue => {
+			props.booksPromise.then(booksValue => {
+				for (let book of booksValue.books){
+					booksRepository.getRatings(book.ISBN).then(ratings => {
+						let average = Math.round(ratings.reduce((a, b) => a + b) / ratings.length);
+						book.rating = average;
+					});
+					book.status = book.borrowerID ? 'Borrowed' : 'Donated';
+					book.favorite = favoritesValue.some(f => f.Title === book.Title);
+				}
+				setBooks(value.books);
+			})
 		});
 	}, []);
 

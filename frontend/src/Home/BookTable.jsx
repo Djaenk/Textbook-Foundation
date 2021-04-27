@@ -8,7 +8,6 @@ export const BookTable = props => {
 	useEffect(() => {
 		const booksRepository = new Books();
 		booksRepository.getFavorites(sessionStorage.getItem('userId')).then(favoritesValue => {
-			console.log(favoritesValue);
 			props.booksPromise.then(booksValue => {
 				for (let book of booksValue){
 					book.status = book.borrowerID ? 'Borrowed' : 'Donated';
