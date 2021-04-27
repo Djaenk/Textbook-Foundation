@@ -45,9 +45,6 @@ export const Donate = props => {
 				const publisher = document.querySelector('#publisher');
 				publisher.value = book.Publisher;
 				setPublisher(publisher.value);
-				const publicationDate = document.querySelector('#publicationDate');
-				publicationDate.value = book.publicationDate;
-				setDate(publicationDate.value);
 			}
 			else {
 				invalidISBN = false;
@@ -111,9 +108,9 @@ export const Donate = props => {
 								onChange={event => setPublisher(event.target.value)}/>
 			        </div>
 							<div className="form-group">
-			          <label htmlFor="publicationDate">Publication Date</label>
+			          <label htmlFor="publicationDate">Publication Date *</label>
 			          <input type="date" className="form-control" id="publicationDate" placeholder="Date (numbers only)"
-								onChange={event => setDate(event.target.value)}/>
+								onChange={event => setDate(event.target.value)} required/>
 			        </div>
 			        <div className="form-group">
 			          <label htmlFor="condition">Select your book condition:</label>

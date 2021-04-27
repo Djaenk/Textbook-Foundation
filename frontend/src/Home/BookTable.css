@@ -1,9 +1,24 @@
-.line{
-	border: 1px solid lightgray;
-	width: 100%;
-	margin: 30px;
+.cellSpacing tbody tr{
+	border-bottom: 1px solid lightgray;
 }
 
 .star::after{
 	content: " \2605";
+}
+
+.cellSpacing thead th,
+.cellSpacing tbody td {
+	 padding: 0.5em 0.7em;
+}
+
+.cellSpacing thead th {
+	border: 0;
+}
+
+.cellSpacing thead th:first-child{
+	border-radius: 0.4em 0 0 0;
+}
+
+.cellSpacing thead th:last-child{
+	border-radius: 0 0.4em 0 0;
 }

@@ -20,14 +20,12 @@ export const BookTable = props => {
 	});
 
 	return <>
-		<h3 className="text-left m-3">{props.heading} ({books.length})</h3>
-		<table className="table table-sm text-left">
+		<h2 className="text-left mt-3 mb-3">{props.heading} ({books.length})</h2>
+		<table className="table table-sm text-left cellSpacing">
 			<thead className="thead-dark">
-				<tr>
 					<th>Book Title</th>
 					<th>ISBN-13</th>
 					<th>Status</th>
-				</tr>
 			</thead>
 			<tbody>
 				{books.map((book, index) =>

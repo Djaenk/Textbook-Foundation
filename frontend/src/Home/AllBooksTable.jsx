@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import Books from '../api/books';
 import {StarFill, ArrowDownUp, Search} from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
+import './BookTable.css';
 
 export const AllBooksTable = props => {
 	const [books, setBooks] = React.useState([]);
@@ -64,11 +65,11 @@ export const AllBooksTable = props => {
 	})
 
 	return <>
-		<h3 className="text-left mx-3">All Books</h3>
-		
+		<h2 className="text-left">All Books</h2>
+
 		<div className="row">
 			<form className="form-inline col">
-				<div className="input-group m-3">
+				<div className="input-group mt-3 mb-4">
 					<input name="search-input" className="form-control" type="search" placeholder="Filter Books" aria-label="Search" onChange={event => setSearch(event.target.value)}/>
 					<div className="input-group-append">
 						<button type="button" className="btn btn-info pt-1" onClick={handleSearch}><Search size="19"/></button>
@@ -76,10 +77,10 @@ export const AllBooksTable = props => {
 				</div>
 				<div className="form-check m-3">
 					<input name="favorites-toggle" className="form-check-input" type="checkbox" aria-label="Favorites only" checked={favoritesOnly} onChange={setFavoritesOnly.bind(this, favoritesOnly => !favoritesOnly)}/>
-					<label htmlFor="favorites-toggle" className="form-check-label">Favorites only</label>
+					<label htmlFor="favorites-toggle" className="form-check-label ml-2">Favorites only</label>
 				</div>
 			</form>
-			
+
 			<nav className="px-3" aria-label="table pages">
 				<ul className="pagination m-3">
 					<li className="page-item disabled"><button type="button" className="page-link">Books per page</button></li>
@@ -89,15 +90,13 @@ export const AllBooksTable = props => {
 				</ul>
 			</nav>
 		</div>
-		<table className="table table-sm text-left">
-			<thead className="thead-dark">
-				<tr>
+		<table className="table table-sm text-left cellSpacing">
+			<thead className="thead-dark thead-green">
 					<th>Book Title<button type="button" className="btn btn-dark pt-0 px-2 my-0 mx-2" onClick={() => {field === 'Title' ? setAsc(asc => !asc) : setAsc(true); setField('Title')}}><ArrowDownUp/></button></th>
 					<th>ISBN-13<button type="button" className="btn btn-dark pt-0 px-2 my-0 mx-2" onClick={() => {field === 'ISBN' ? setAsc(asc => !asc) : setAsc(true); setField('ISBN')}}><ArrowDownUp/></button></th>
 					<th>Status<button type="button" className="btn btn-dark pt-0 px-2 my-0 mx-2" onClick={() => {field === 'status' ? setAsc(asc => !asc) : setAsc(true); setField('status')}}><ArrowDownUp/></button></th>
 					<th>Rating<button type="button" className="btn btn-dark pt-0 px-2 my-0 mx-2" onClick={() => {field === 'rating' ? setAsc(asc => !asc) : setAsc(true); setField('rating')}}><ArrowDownUp/></button></th>
-				</tr>
-			</thead>
+				</thead>
 			<tbody>
 				{books.slice(page * perPage, (page + 1) * perPage).map(book =>
 					<tr key={book.bookID} className={(!book.favorite && favoritesOnly) ? "d-none" : ""}>
@@ -112,7 +111,7 @@ export const AllBooksTable = props => {
 						[1,2,3,4,5].map(x => x > book.rating ? "" : <StarFill key={x}/>)}</td>
 					</tr>
 				)}
-				<tr><td colSpan="4"><p>Don't see a book you're looking for? <Link to="/wishlist">Add it to your Wishlist</Link></p></td></tr>
+				<tr><td colSpan="4"><p className="mt-3 mb-3 text-secondary">Don't see a book you're looking for? <Link to="/wishlist">Add it to your Wishlist</Link></p></td></tr>
 			</tbody>
 		</table>
 		<nav className="d-flex justify-content-center" aria-label="table pages">

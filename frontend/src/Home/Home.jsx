@@ -19,9 +19,7 @@ export const Home = props => {
 					<BookTable heading="Borrowed Books" booksPromise={booksRespository.getBorrows(sessionStorage.userId)}/>
 				</div>
 			</div>
-			<div className="row">
-				<div className="line"></div>
-			</div>
+			<hr/>
 			<div className="row" style={{maxWidth: "1440px", margin: "0 auto"}}>
 				<div className="col">
 					<AllBooksTable heading="All Books" booksPromise={booksRespository.getBooks()}/>
