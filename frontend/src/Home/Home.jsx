@@ -12,10 +12,10 @@ export const Home = props => {
 		<Navigation/>
 		<div className="container-fluid mt-3">
 			<div className="row">
-				<div className="col">
+				<div className="col mb-3">
 					<BookTable heading="Donated Books" booksPromise={booksRespository.getDonations(sessionStorage.userId)}/>
 				</div>
-				<div className="col">
+				<div className="col mb-3">
 					<BookTable heading="Borrowed Books" booksPromise={booksRespository.getBorrows(sessionStorage.userId)}/>
 				</div>
 			</div>

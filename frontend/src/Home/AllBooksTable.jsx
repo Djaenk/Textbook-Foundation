@@ -65,7 +65,7 @@ export const AllBooksTable = props => {
 	})
 
 	return <>
-		<h2 className="text-left">All Books</h2>
+		<h2 className="text-left mt-3">All Books</h2>
 
 		<div className="row">
 			<form className="form-inline col">
