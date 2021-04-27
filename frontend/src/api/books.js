@@ -9,6 +9,19 @@ function error(err) {
 
 export class Books{
 
+    postBook(book) {
+        return new Promise((resolve, reject) => {
+            axios.post(hostname + '/api/:ISBN/', { ...book })
+                .then(response => {
+                    resolve(response.data);
+                })
+                .catch(err => {
+                    error(err);
+                    resolve(undefined);
+                });
+        });
+    }
+
     getBooks() {
         return new Promise((resolve, reject) => {
             axios.get(hostname + '/api/books')
@@ -25,6 +38,19 @@ export class Books{
     getBook(id) {
         return new Promise((resolve, reject) => {
             axios.get(`${hostname}/api/books/${id}`)
+                .then(response => {
+                    resolve(response.data);
+                })
+                .catch(err => {
+                    console.error(err);
+                    reject(err);
+                });
+        })
+    }
+
+    getBookIsbn(isbn) {
+        return new Promise((resolve, reject) => {
+            axios.get(`${hostname}/api/search?isbn=${isbn}`)
                 .then(response => {
                     resolve(response.data);
                 })
