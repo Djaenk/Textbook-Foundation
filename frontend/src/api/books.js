@@ -9,9 +9,9 @@ function error(err) {
 
 export class Books{
 
-    postBook(book, ISBN) {
+    postBook(ISBN, bookState) {
         return new Promise((resolve, reject) => {
-            axios.post(`${hostname}/api/${ISBN}/`, { ...book })
+            axios.post(`${hostname}/api/books/${ISBN}`, { ...bookState })
                 .then(response => {
                     resolve(response.data);
                 })

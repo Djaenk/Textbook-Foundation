@@ -17,24 +17,8 @@ export const Donate = props => {
 	const [donor, setDonor] = React.useState('');
 	var invalidISBN = false;
 
-	const donateState = {
-		ISBN: "",
-		author: "",
-		publisher: "",
-		publicationDate: "",
-		condition: "",
-		donorId: donor,
-		borrowerId: null,
-		title: ""
-	};
-
 	useEffect(() => {
-		if (sessionStorage.getItem("isAuthenticated") === "false") {
-			return <Redirect to="/" />;
-		}
-		else {
-			setDonor(sessionStorage.getItem('userId'));
-		}
+		setDonor(sessionStorage.getItem('userId'));
 
 		if (!book) {
 			bookApi.getBookIsbn(search).then( bookValues => {
@@ -48,16 +32,22 @@ export const Donate = props => {
 				setBook(bookValues.data[0]);
 			})
 			if(book !== undefined){
+				setIsbn(search);
 				const title = document.querySelector('#bookTitle');
 				title.value = book.Title;
+				setTitle(title.value);
 				const isbn = document.querySelector('#isbn');
 				isbn.value = book.ISBN;
+				setIsbn(isbn.value);
 				const author = document.querySelector('#author');
 				author.value = book.Author;
+				setAuthor(author.value);
 				const publisher = document.querySelector('#publisher');
 				publisher.value = book.Publisher;
+				setPublisher(publisher.value);
 				const publicationDate = document.querySelector('#publicationDate');
 				publicationDate.value = book.publicationDate;
+				setDate(publicationDate.value);
 			}
 			else {
 				invalidISBN = false;
@@ -65,20 +55,20 @@ export const Donate = props => {
 	}
 
 	function submitDonate () {
-		// setState(value => {
-		// 	value.password = z;
-		// 	return s;
-		// });
-		// donateState.props({ISBN: isbn});
-		// donateState.setState({author: author});
-		// donateState.setState({publisher: publisher});
-		// donateState.setState({publicationDate: publicationDate});
-		// donateState.setState({condition: condition});
-		// donateState.setState({donorId: donor});
-		// donateState.setState({title: title});
-		bookApi.postBook(donateState, isbn);
+		const donateState = {
+			author: author,
+			publisher: publisher,
+			publicationDate: publicationDate,
+			condition: condition,
+			donorID: donor,
+			borrowerID: null,
+			title: title
+		};
+		bookApi.postBook(isbn, donateState);
 	}
-
+	if (sessionStorage.getItem("isAuthenticated") === "false") {
+ 		return <Redirect to="/" />;
+ 	}
 		return<>
 				<Navigation/>
 			  <div>
