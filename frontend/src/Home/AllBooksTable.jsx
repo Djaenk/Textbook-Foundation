@@ -23,7 +23,7 @@ export const AllBooksTable = props => {
 					book.status = book.borrowerID ? 'Borrowed' : 'Donated';
 					book.favorite = favoritesValue.some(f => f.Title === book.Title);
 				}
-				setBooks(value.books);
+				setBooks(booksValue.books);
 			})
 		});
 	}, []);
