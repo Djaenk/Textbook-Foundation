@@ -17,7 +17,7 @@ export const BookTable = props => {
 				setBooks(booksValue);
 			})
 		});
-	});
+	}, []);
 
 	return <>
 		<h3 className="text-left m-3">{props.heading}</h3>

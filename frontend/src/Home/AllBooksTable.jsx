@@ -24,7 +24,7 @@ export const AllBooksTable = props => {
 			}
 			setBooks(value.books);
 		});
-	})
+	}, []);
 
 	function handleSearch(){
 		let books = [];
