@@ -2,7 +2,7 @@ const pool = require('./db')
 
 module.exports = function routes(app, logger) {
 
-  
+
   // GET /
   app.get('/', (req, res) => {
     res.status(200).send('Go to 0.0.0.0:3000.');
@@ -16,27 +16,27 @@ module.exports = function routes(app, logger) {
         console.log(connection);
         // if there is an issue obtaining a connection, release the connection instance and log the error
         logger.error('Problem obtaining MySQL connection', err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
+        res.status(400).send('Problem obtaining MySQL connection');
       } else {
         // if there is no issue obtaining a connection, execute query
         connection.query('drop table if exists test_table', function (err, rows, fields) {
-          if (err) { 
+          if (err) {
             // if there is an error with the query, release the connection instance and log the error
             connection.release()
-            logger.error("Problem dropping the table test_table: ", err); 
-            res.status(400).send('Problem dropping the table'); 
+            logger.error("Problem dropping the table test_table: ", err);
+            res.status(400).send('Problem dropping the table');
           } else {
             // if there is no error with the query, execute the next query and do not release the connection yet
             connection.query('CREATE TABLE `db`.`test_table` (`id` INT NOT NULL AUTO_INCREMENT, `value` VARCHAR(45), PRIMARY KEY (`id`), UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE);', function (err, rows, fields) {
-              if (err) { 
+              if (err) {
                 // if there is an error with the query, release the connection instance and log the error
                 connection.release()
                 logger.error("Problem creating the table test_table: ", err);
-                res.status(400).send('Problem creating the table'); 
-              } else { 
+                res.status(400).send('Problem creating the table');
+              } else {
                 // if there is no error with the query, release the connection instance
                 connection.release()
-                res.status(200).send('created the table'); 
+                res.status(200).send('created the table');
               }
             });
           }
@@ -53,7 +53,7 @@ module.exports = function routes(app, logger) {
       if(err){
         // if there is an issue obtaining a connection, release the connection instance and log the error
         logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
+        res.status(400).send('Problem obtaining MySQL connection');
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
         connection.query('INSERT INTO `db`.`test_table` (`value`) VALUES(\'' + req.body.product + '\')', function (err, rows, fields) {
@@ -61,7 +61,7 @@ module.exports = function routes(app, logger) {
           if (err) {
             // if there is an error with the query, log the error
             logger.error("Problem inserting into test table: \n", err);
-            res.status(400).send('Problem inserting into table'); 
+            res.status(400).send('Problem inserting into table');
           } else {
             res.status(200).send(`added ${req.body.product} to the table!`);
           }
@@ -77,7 +77,7 @@ module.exports = function routes(app, logger) {
       if(err){
         // if there is an issue obtaining a connection, release the connection instance and log the error
         logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
+        res.status(400).send('Problem obtaining MySQL connection');
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
         connection.query('SELECT value FROM `db`.`test_table`', function (err, rows, fields) {
@@ -117,7 +117,7 @@ module.exports = function routes(app, logger) {
       if(err){
         // if there is an issue obtaining a connection, release the connection instance and log the error
         logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
+        res.status(400).send('Problem obtaining MySQL connection');
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
         connection.query('INSERT INTO users(firstName, lastName, phoneNumber, email, username, password, private, joinDate) VALUES(?,?,?,?,?,?,?,?) ', [firstName, lastName, phoneNumber, email, username, password, private, joinDate], function (err, rows, fields) {
@@ -125,7 +125,7 @@ module.exports = function routes(app, logger) {
           if (err) {
             // if there is an error with the query, log the error
             logger.error("Problem inserting into test table: \n", err);
-            res.status(400).send('Problem inserting into table'); 
+            res.status(400).send('Problem inserting into table');
           } else {
             res.status(200).send(`added ${req.body} to the table!`);
           }
@@ -146,7 +146,6 @@ module.exports = function routes(app, logger) {
     var condition = req.param('condition'); // Naming here - in database it's bookCondition
     var donorID = req.param('donorID');
     var borrowerID = req.param('borrowerID');
-    var publicationDate = req.param('publicationDate');
     var title = req.body.title;
     let donationDate = new Date(); // Should this get current datetime or is this a date that's manually created?
 
@@ -156,7 +155,7 @@ module.exports = function routes(app, logger) {
       if(err) {
         // if there is an issue obtaining a connection, release the connection instance and log the error
         logger.error('Problem obtaining MySQL connection', err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
+        res.status(400).send('Problem obtaining MySQL connection');
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
         connection.query('INSERT INTO books (donorID, ISBN, title, author, publisher, publicationDate, bookCondition, borrowerID, donationDate) VALUES (?,?,?,?,?,?,?,?,?)', [donorID, ISBN, title, author, publisher, publicationDate, condition, borrowerID, donationDate], function (err, rows, fields) {
@@ -164,7 +163,7 @@ module.exports = function routes(app, logger) {
           if (err) {
             // if there is an error with the query, log the error
             logger.error("Problem inserting into test table: \n", err);
-            res.status(400).send('Problem inserting into table'); 
+            res.status(400).send('Problem inserting into table');
           } else {
             res.status(200).send(`added ${req.body} to the table!`);
           }
@@ -192,7 +191,7 @@ module.exports = function routes(app, logger) {
       if(err){
         // if there is an issue obtaining a connection, release the connection instance and log the error
         logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
+        res.status(400).send('Problem obtaining MySQL connection');
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
         connection.query('INSERT INTO users(firstName, lastName, phoneNumber, email, username, password, private, joinDate) VALUES(?,?,?,?,?,?,?,?) ', [firstName, lastName, phoneNumber, email, username, password, private, joinDate], function (err, rows, fields) {
@@ -200,7 +199,7 @@ module.exports = function routes(app, logger) {
           if (err) {
             // if there is an error with the query, log the error
             logger.error("Problem inserting into test table: \n", err);
-            res.status(400).send('Problem inserting into table'); 
+            res.status(400).send('Problem inserting into table');
           } else {
             res.status(200).send(`added ${req.body} to the table!`);
           }
@@ -217,7 +216,7 @@ module.exports = function routes(app, logger) {
       if(err){
         // if there is an issue obtaining a connection, release the connection instance and log the error
         logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
+        res.status(400).send('Problem obtaining MySQL connection');
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
         connection.query('SELECT * FROM books', function (err, rows, fields) {
@@ -225,7 +224,7 @@ module.exports = function routes(app, logger) {
           if (err) {
             // if there is an error with the query, log the error
             logger.error("Problem getting from table: \n", err);
-            res.status(400).send('Problem getting table'); 
+            res.status(400).send('Problem getting table');
           } else {
             console.log(rows)
             res.status(200).json({
@@ -246,7 +245,7 @@ module.exports = function routes(app, logger) {
       if(err){
         // if there is an issue obtaining a connection, release the connection instance and log the error
         logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
+        res.status(400).send('Problem obtaining MySQL connection');
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
         connection.query(`select * from books where bookID = ${req.params.id}`, bookID, function (err, rows, fields) {
@@ -254,7 +253,7 @@ module.exports = function routes(app, logger) {
           if (err) {
             // if there is an error with the query, log the error
             logger.error("Problem getting from table: \n", err);
-            res.status(400).send('Problem getting table'); 
+            res.status(400).send('Problem getting table');
           } else {
             console.log(rows)
             res.status(200).json({
@@ -276,7 +275,7 @@ module.exports = function routes(app, logger) {
       if(err){
         // if there is an issue obtaining a connection, release the connection instance and log the error
         logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
+        res.status(400).send('Problem obtaining MySQL connection');
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
         connection.query('select * from books where Title = (?) OR ISBN = (?)', [title, isbn], function (err, rows, fields) {
@@ -284,7 +283,7 @@ module.exports = function routes(app, logger) {
           if (err) {
             // if there is an error with the query, log the error
             logger.error("Problem getting from table: \n", err);
-            res.status(400).send('Problem getting table'); 
+            res.status(400).send('Problem getting table');
           } else {
             console.log(rows)
             res.status(200).json({
@@ -304,7 +303,7 @@ module.exports = function routes(app, logger) {
       if(err){
         // if there is an issue obtaining a connection, release the connection instance and log the error
         logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
+        res.status(400).send('Problem obtaining MySQL connection');
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
         connection.query('select * from wishlist;', function (err, rows, fields) {
@@ -312,7 +311,7 @@ module.exports = function routes(app, logger) {
           if (err) {
             // if there is an error with the query, log the error
             logger.error("Problem getting from table: \n", err);
-            res.status(400).send('Problem getting table'); 
+            res.status(400).send('Problem getting table');
           } else {
             console.log(rows)
             res.status(200).json({
@@ -334,7 +333,7 @@ module.exports = function routes(app, logger) {
       if(err){
         // if there is an issue obtaining a connection, release the connection instance and log the error
         logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
+        res.status(400).send('Problem obtaining MySQL connection');
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
         connection.query('select * from books where COUNT(ISBN) > (?)', quantity, function (err, rows, fields) {
@@ -342,7 +341,7 @@ module.exports = function routes(app, logger) {
           if (err) {
             // if there is an error with the query, log the error
             logger.error("Problem getting from table: \n", err);
-            res.status(400).send('Problem getting table'); 
+            res.status(400).send('Problem getting table');
           } else {
             console.log(rows)
             res.status(200).json({
@@ -364,7 +363,7 @@ module.exports = function routes(app, logger) {
       if(err){
         // if there is an issue obtaining a connection, release the connection instance and log the error
         logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
+        res.status(400).send('Problem obtaining MySQL connection');
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
         connection.query('select * from books where donorID = (?)', userID, function (err, rows, fields) {
@@ -372,7 +371,7 @@ module.exports = function routes(app, logger) {
           if (err) {
             // if there is an error with the query, log the error
             logger.error("Problem getting from table: \n", err);
-            res.status(400).send('Problem getting table'); 
+            res.status(400).send('Problem getting table');
           } else {
             console.log(rows)
             res.status(200).json({
@@ -393,7 +392,7 @@ module.exports = function routes(app, logger) {
       if(err){
         // if there is an issue obtaining a connection, release the connection instance and log the error
         logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
+        res.status(400).send('Problem obtaining MySQL connection');
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
         connection.query('select * from books where borrowerID = (?)', userID, function (err, rows, fields) {
@@ -401,7 +400,7 @@ module.exports = function routes(app, logger) {
           if (err) {
             // if there is an error with the query, log the error
             logger.error("Problem getting from table: \n", err);
-            res.status(400).send('Problem getting table'); 
+            res.status(400).send('Problem getting table');
           } else {
             console.log(rows)
             res.status(200).json({
@@ -422,7 +421,7 @@ module.exports = function routes(app, logger) {
       if(err){
         // if there is an issue obtaining a connection, release the connection instance and log the error
         logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
+        res.status(400).send('Problem obtaining MySQL connection');
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
         connection.query(`select * from users where userID = ${req.params.id}`, userID, function (err, rows, fields) {
@@ -430,7 +429,7 @@ module.exports = function routes(app, logger) {
           if (err) {
             // if there is an error with the query, log the error
             logger.error("Problem getting from table: \n", err);
-            res.status(400).send('Problem getting table'); 
+            res.status(400).send('Problem getting table');
           } else {
             console.log(rows)
             res.status(200).json({
@@ -451,7 +450,7 @@ module.exports = function routes(app, logger) {
       if(err){
         // if there is an issue obtaining a connection, release the connection instance and log the error
         logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
+        res.status(400).send('Problem obtaining MySQL connection');
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
         connection.query('select books.* from favorites right join books on favorites.ISBN = books.ISBN where favorites.userID = (?)', userID, function (err, rows, fields) {
@@ -459,7 +458,7 @@ module.exports = function routes(app, logger) {
           if (err) {
             // if there is an error with the query, log the error
             logger.error("Problem getting from table: \n", err);
-            res.status(400).send('Problem getting table'); 
+            res.status(400).send('Problem getting table');
           } else {
             console.log(rows)
             res.status(200).json({
@@ -481,7 +480,7 @@ module.exports = function routes(app, logger) {
       if(err){
         // if there is an issue obtaining a connection, release the connection instance and log the error
         logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
+        res.status(400).send('Problem obtaining MySQL connection');
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
         connection.query('select books.* from favorites right join books on favorites.ISBN = books.ISBN where favorites.userID = (?) && books.ISBN = (?) LIMIT 1', [userID, ISBN], function (err, rows, fields) {
@@ -489,7 +488,7 @@ module.exports = function routes(app, logger) {
           if (err) {
             // if there is an error with the query, log the error
             logger.error("Problem getting from table: \n", err);
-            res.status(400).send('Problem getting table'); 
+            res.status(400).send('Problem getting table');
           } else {
             console.log(rows)
             res.status(200).json({
@@ -510,7 +509,7 @@ module.exports = function routes(app, logger) {
       if(err){
         // if there is an issue obtaining a connection, release the connection instance and log the error
         logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
+        res.status(400).send('Problem obtaining MySQL connection');
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
         connection.query('select * from wishlist right join books on wishlist.ISBN = books.ISBN where wishlist.userID = (?)', userID, function (err, rows, fields) {
@@ -518,7 +517,7 @@ module.exports = function routes(app, logger) {
           if (err) {
             // if there is an error with the query, log the error
             logger.error("Problem getting from table: \n", err);
-            res.status(400).send('Problem getting table'); 
+            res.status(400).send('Problem getting table');
           } else {
             console.log(rows)
             res.status(200).json({
@@ -539,7 +538,7 @@ module.exports = function routes(app, logger) {
       if(err){
         // if there is an issue obtaining a connection, release the connection instance and log the error
         logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
+        res.status(400).send('Problem obtaining MySQL connection');
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
         connection.query('select ISBN, ratings.* from ratings join books on books.bookID = ratings.bookID where books.ISBN = (?)', ISBN, function (err, rows, fields) {
@@ -547,7 +546,7 @@ module.exports = function routes(app, logger) {
           if (err) {
             // if there is an error with the query, log the error
             logger.error("Problem getting from table: \n", err);
-            res.status(400).send('Problem getting table'); 
+            res.status(400).send('Problem getting table');
           } else {
             console.log(rows)
             res.status(200).json({
@@ -558,8 +557,8 @@ module.exports = function routes(app, logger) {
       }
     });
   });
-  
-  //  // 
+
+  //  //
   //  app.post('/api/users', (req, res) => {
   //   var firstName = req.body.firstName;
   //   var lastName = req.body.lastName;
@@ -576,7 +575,7 @@ module.exports = function routes(app, logger) {
   //     if(err){
   //       // if there is an issue obtaining a connection, release the connection instance and log the error
   //       logger.error('Problem obtaining MySQL connection',err)
-  //       res.status(400).send('Problem obtaining MySQL connection'); 
+  //       res.status(400).send('Problem obtaining MySQL connection');
   //     } else {
   //       // if there is no issue obtaining a connection, execute query and release connection
   //       connection.query('INSERT INTO users(firstName, lastName, phoneNumber, email, username, password, private, joinDate) VALUES(?,?,?,?,?,?,?,?) ', [firstName, lastName, phoneNumber, email, username, password, private, joinDate], function (err, rows, fields) {
@@ -584,7 +583,7 @@ module.exports = function routes(app, logger) {
   //         if (err) {
   //           // if there is an error with the query, log the error
   //           logger.error("Problem inserting into test table: \n", err);
-  //           res.status(400).send('Problem inserting into table'); 
+  //           res.status(400).send('Problem inserting into table');
   //         } else {
   //           res.status(200).send(`Added ${req.body.firstName} ${req.body.lastName} to the table!`);
   //         }
@@ -604,7 +603,7 @@ module.exports = function routes(app, logger) {
       if(err){
         // if there is an issue obtaining a connection, release the connection instance and log the error
         logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
+        res.status(400).send('Problem obtaining MySQL connection');
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
         connection.query('INSERT INTO favorites(userID, ISBN) VALUES(?,?) ', [userID, ISBN], function (err, rows, fields) {
@@ -612,7 +611,7 @@ module.exports = function routes(app, logger) {
           if (err) {
             // if there is an error with the query, log the error
             logger.error("Problem inserting into test table: \n", err);
-            res.status(400).send('Problem inserting into table'); 
+            res.status(400).send('Problem inserting into table');
           } else {
             res.status(200).send(`Added ISBN: ${ISBN} to User: ${userID}'s favorites!`);
           }
@@ -633,7 +632,7 @@ module.exports = function routes(app, logger) {
       if(err){
         // if there is an issue obtaining a connection, release the connection instance and log the error
         logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
+        res.status(400).send('Problem obtaining MySQL connection');
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
         connection.query('INSERT INTO wishlist(userID, ISBN, dateRequested) VALUES(?,?,?) ', [userID, ISBN, dateRequested], function (err, rows, fields) {
@@ -641,9 +640,9 @@ module.exports = function routes(app, logger) {
           if (err) {
             // if there is an error with the query, log the error
             logger.error("Problem inserting into test table: \n", err);
-            res.status(400).send('Problem inserting into table'); 
+            res.status(400).send('Problem inserting into table');
           } else {
-            res.status(200).send(`Added ISBN: ${bookID} to User: ${userID}'s wishlist at ${dateRequested}!`);
+            res.status(200).send(`Added ISBN: ${ISBN} to User: ${userID}'s wishlist at ${dateRequested}!`);
           }
         });
       }
@@ -662,7 +661,7 @@ module.exports = function routes(app, logger) {
       if(err){
         // if there is an issue obtaining a connection, release the connection instance and log the error
         logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
+        res.status(400).send('Problem obtaining MySQL connection');
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
         connection.query('INSERT INTO ratings(bookID, rating, userID) VALUES(?,?,?) ', [bookID, rating, userID], function (err, rows, fields) {
@@ -670,7 +669,7 @@ module.exports = function routes(app, logger) {
           if (err) {
             // if there is an error with the query, log the error
             logger.error("Problem inserting into test table: \n", err);
-            res.status(400).send('Problem inserting into table'); 
+            res.status(400).send('Problem inserting into table');
           } else {
             res.status(200).send(`Added ISBN: ${bookID} to User: ${userID}'s rating with Rating:${rating}!`);
           }
@@ -696,11 +695,11 @@ module.exports = function routes(app, logger) {
       if(err){
         // if there is an issue obtaining a connection, release the connection instance and log the error
         logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
+        res.status(400).send('Problem obtaining MySQL connection');
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
         connection.query(`
-        UPDATE books SET 
+        UPDATE books SET
         donorID = ${donorID},
         ISBN = ${ISBN},
         Author = "${author}",
@@ -714,7 +713,7 @@ module.exports = function routes(app, logger) {
           if (err) {
             // if there is an error with the query, log the error
             logger.error("Problem inserting into test table: \n", err);
-            res.status(400).send('Problem inserting into table'); 
+            res.status(400).send('Problem inserting into table');
           } else {
             res.status(200).send(`Updated BookID: ${bookID} to Books with ISBN:${ISBN}, Author:${author}, Publisher:${publisher}, Publication Date:${publicationDate}, Condition:${condition}, DonorID:${donorID}, and BorrowerID:${borrowerID}!`);
           }
@@ -727,18 +726,18 @@ module.exports = function routes(app, logger) {
     app.put('/api/books/borrow/:bookID', (req, res) => {
       var bookID = req.params.bookID;
       var borrowerID = req.param('borrowerID');
-  
+
       console.log(req.body);
-  
+
       pool.getConnection(function (err, connection){
         if(err){
           // if there is an issue obtaining a connection, release the connection instance and log the error
           logger.error('Problem obtaining MySQL connection',err)
-          res.status(400).send('Problem obtaining MySQL connection'); 
+          res.status(400).send('Problem obtaining MySQL connection');
         } else {
           // if there is no issue obtaining a connection, execute query and release connection
           connection.query(`
-          UPDATE books SET 
+          UPDATE books SET
           borrowerID = ${borrowerID}
           WHERE bookID = ${bookID};
           `, function (err, rows, fields) {
@@ -746,7 +745,7 @@ module.exports = function routes(app, logger) {
             if (err) {
               // if there is an error with the query, log the error
               logger.error("Problem inserting into test table: \n", err);
-              res.status(400).send('Problem inserting into table'); 
+              res.status(400).send('Problem inserting into table');
             } else {
               res.status(200).send(`Updated BookID: ${bookID} with BorrowerID:${borrowerID}!`);
             }
@@ -773,11 +772,11 @@ module.exports = function routes(app, logger) {
       if(err){
         // if there is an issue obtaining a connection, release the connection instance and log the error
         logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
+        res.status(400).send('Problem obtaining MySQL connection');
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
         connection.query(`
-        UPDATE users SET 
+        UPDATE users SET
         private = ${private},
         username = "${username}",
         password = "${password}",
@@ -791,7 +790,7 @@ module.exports = function routes(app, logger) {
           if (err) {
             // if there is an error with the query, log the error
             logger.error("Problem inserting into test table: \n", err);
-            res.status(400).send('Problem inserting into table'); 
+            res.status(400).send('Problem inserting into table');
           } else {
             res.status(200).send(`Updated UserID: ${userID} to User with username:${username}, password:${password}, firstName:${firstName}, lastName:${lastName}, phoneNumber:${phoneNumber}, email:${email}, and private:${private}!`);
           }
@@ -812,11 +811,11 @@ module.exports = function routes(app, logger) {
       if(err){
         // if there is an issue obtaining a connection, release the connection instance and log the error
         logger.error('Problem obtaining MySQL connection',err)
-        res.status(400).send('Problem obtaining MySQL connection'); 
+        res.status(400).send('Problem obtaining MySQL connection');
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
         connection.query(`
-        UPDATE ratings SET 
+        UPDATE ratings SET
         borrowerID = ${user},
         rating = ${rating}
         WHERE bookID = ${bookID}
@@ -825,7 +824,7 @@ module.exports = function routes(app, logger) {
           if (err) {
             // if there is an error with the query, log the error
             logger.error("Problem inserting into test table: \n", err);
-            res.status(400).send('Problem inserting into table'); 
+            res.status(400).send('Problem inserting into table');
           } else {
             res.status(200).send(`Updated BookID: ${bookID} to Rating with borrowerID:${user} and rating:${rating}!`);
           }
@@ -837,7 +836,7 @@ module.exports = function routes(app, logger) {
 //api/books/{bookID}
 app.delete('/api/books/:bookID', (req, res) => {
   var bookID = req.params.bookID;
-  
+
 
   //console.log(req.body);
 
@@ -845,18 +844,18 @@ app.delete('/api/books/:bookID', (req, res) => {
     if(err){
       // if there is an issue obtaining a connection, release the connection instance and log the error
       logger.error('Problem obtaining MySQL connection',err)
-      res.status(400).send('Problem obtaining MySQL connection'); 
+      res.status(400).send('Problem obtaining MySQL connection');
     } else {
       // if there is no issue obtaining a connection, execute query and release connection
       connection.query(`
-      DELETE from books      
-      WHERE bookID = ${bookID} 
+      DELETE from books
+      WHERE bookID = ${bookID}
       `, function (err, rows, fields) {
         connection.release();
         if (err) {
           // if there is an error with the query, log the error
           logger.error("Problem deleting from test table: \n", err);
-          res.status(400).send('Problem deleting from table'); 
+          res.status(400).send('Problem deleting from table');
         } else {
           res.status(200).send(`Removed bookID ${bookID}!`);
         }
@@ -869,7 +868,7 @@ app.delete('/api/books/:bookID', (req, res) => {
 //api/users/{userID}
 app.delete('/api/users/:userID', (req, res) => {
   var userID = req.params.userID;
-  
+
 
   //console.log(req.body);
 
@@ -877,17 +876,17 @@ app.delete('/api/users/:userID', (req, res) => {
     if(err){
       // if there is an issue obtaining a connection, release the connection instance and log the error
       logger.error('Problem obtaining MySQL connection',err)
-      res.status(400).send('Problem obtaining MySQL connection'); 
+      res.status(400).send('Problem obtaining MySQL connection');
     } else {
       connection.query(`
-      DELETE from users      
+      DELETE from users
       WHERE userID = ${userID}
       `, userID, function (err, rows, fields) {
         connection.release();
         if (err) {
           // if there is an error with the query, log the error
           logger.error("Problem deleting from test table: \n", err);
-          res.status(400).send('Problem deleting from table'); 
+          res.status(400).send('Problem deleting from table');
         } else {
           res.status(200).send(`Removed user ${userID}!`);
         }
@@ -900,7 +899,7 @@ app.delete('/api/users/:userID', (req, res) => {
 app.delete('/api/favorites/:ISBN/:userID', (req, res) => {
   var ISBN = req.params.ISBN;
   var userID = req.params.userID;
-  
+
 
   //console.log(req.body);
 
@@ -908,11 +907,11 @@ app.delete('/api/favorites/:ISBN/:userID', (req, res) => {
     if(err){
       // if there is an issue obtaining a connection, release the connection instance and log the error
       logger.error('Problem obtaining MySQL connection',err)
-      res.status(400).send('Problem obtaining MySQL connection'); 
+      res.status(400).send('Problem obtaining MySQL connection');
     } else {
       // if there is no issue obtaining a connection, execute query and release connection
       connection.query(`
-      DELETE from favorites      
+      DELETE from favorites
       WHERE ISBN = ${ISBN} AND
       userID = ${userID}
       `, function (err, rows, fields) {
@@ -920,7 +919,7 @@ app.delete('/api/favorites/:ISBN/:userID', (req, res) => {
         if (err) {
           // if there is an error with the query, log the error
           logger.error("Problem inserting into test table: \n", err);
-          res.status(400).send('Problem inserting into table'); 
+          res.status(400).send('Problem inserting into table');
         } else {
           res.status(200).send(`Removed favorite book from user ${userID} with ISBN ${ISBN}!`);
         }
@@ -933,7 +932,7 @@ app.delete('/api/favorites/:ISBN/:userID', (req, res) => {
 app.delete('/api/wishlist/:ISBN/:userID', (req, res) => {
   var ISBN = req.params.ISBN;
   var userID = req.params.userID;
-  
+
 
   //console.log(req.body);
 
@@ -941,11 +940,11 @@ app.delete('/api/wishlist/:ISBN/:userID', (req, res) => {
     if(err){
       // if there is an issue obtaining a connection, release the connection instance and log the error
       logger.error('Problem obtaining MySQL connection',err)
-      res.status(400).send('Problem obtaining MySQL connection'); 
+      res.status(400).send('Problem obtaining MySQL connection');
     } else {
       // if there is no issue obtaining a connection, execute query and release connection
       connection.query(`
-      DELETE from wishlist      
+      DELETE from wishlist
       WHERE ISBN = ${ISBN} AND
       userID = ${userID}
       `, function (err, rows, fields) {
@@ -953,7 +952,7 @@ app.delete('/api/wishlist/:ISBN/:userID', (req, res) => {
         if (err) {
           // if there is an error with the query, log the error
           logger.error("Problem inserting into test table: \n", err);
-          res.status(400).send('Problem inserting into table'); 
+          res.status(400).send('Problem inserting into table');
         } else {
           res.status(200).send(`Removed from wishlist of user ${userID} with ISBN ${ISBN}!`);
         }
@@ -966,7 +965,7 @@ app.delete('/api/wishlist/:ISBN/:userID', (req, res) => {
 app.delete('/api/ratings/:bookID/:borrowerID', (req, res) => {
   var bookID = req.params.bookID;
   var borrowerID = req.params.borrowerID;
-  
+
 
   //console.log(req.body);
 
@@ -974,11 +973,11 @@ app.delete('/api/ratings/:bookID/:borrowerID', (req, res) => {
     if(err){
       // if there is an issue obtaining a connection, release the connection instance and log the error
       logger.error('Problem obtaining MySQL connection',err)
-      res.status(400).send('Problem obtaining MySQL connection'); 
+      res.status(400).send('Problem obtaining MySQL connection');
     } else {
       // if there is no issue obtaining a connection, execute query and release connection
       connection.query(`
-      DELETE from ratings      
+      DELETE from ratings
       WHERE bookID = ${bookID} AND
       borrowerID = ${borrowerID}
       `, function (err, rows, fields) {
@@ -986,7 +985,7 @@ app.delete('/api/ratings/:bookID/:borrowerID', (req, res) => {
         if (err) {
           // if there is an error with the query, log the error
           logger.error("Problem inserting into test table: \n", err);
-          res.status(400).send('Problem inserting into table'); 
+          res.status(400).send('Problem inserting into table');
         } else {
           res.status(200).send(`Removed rating by ${borrowerID} on book ${bookID}!`);
         }
@@ -996,9 +995,9 @@ app.delete('/api/ratings/:bookID/:borrowerID', (req, res) => {
 });
 
 
- 
 
-  // Login 
+
+  // Login
     app.post('/api/login', (req, res) => {
     var username = req.body.username;
     var password = req.body.password;
@@ -1008,15 +1007,15 @@ app.delete('/api/ratings/:bookID/:borrowerID', (req, res) => {
         if(err){
           // if there is an issue obtaining a connection, release the connection instance and log the error
           logger.error('Problem obtaining MySQL connection',err)
-          res.status(400).send('Problem obtaining MySQL connection'); 
+          res.status(400).send('Problem obtaining MySQL connection');
         } else {
           // if there is no issue obtaining a connection, execute query and release connection
           connection.query(`SELECT * FROM users where username = "${req.body.username}"`, function (err, result, fields) {
-            if (result[0] && result[0].password == req.body.password) {				
-              res.send({status: true, account: result[0]});			
-            } 
-            else {		
-              res.send({ status: false });			
+            if (result[0] && result[0].password == req.body.password) {
+              res.send({status: true, account: result[0]});
+            }
+            else {
+              res.send({ status: false });
             }
           });
         }

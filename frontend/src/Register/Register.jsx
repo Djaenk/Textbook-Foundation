@@ -15,7 +15,7 @@ export class Register extends React.Component {
 			email: "",
 			username: "",
 			password: "",
-			private: 0,
+			private: "",
 			redirect: false
 	};
 
@@ -61,6 +61,12 @@ export class Register extends React.Component {
 		});
 	}
 
+	setPrivate(z) {
+		this.setState(s => {
+			s.password = z;
+			return s;
+		});
+	}
 
 	signUp() {
 			this.accountRepository.register(this.state)
@@ -72,13 +78,13 @@ export class Register extends React.Component {
 
 		if (redirect) {
 			return <Redirect to='/'/>;
-		}	
+		}
 		return(
 				<>
 					<Navigation/>
 
 				     <div>
-				     <form id="register-form" 
+				     <form id="register-form"
 					 className="col-sm-9 col-md-7 col-lg-4 mt-5 mx-auto border-0"
 					 onSubmit={() => this.signUp()}>
 				         <h2 className="text-center">Sign Up</h2>
@@ -138,7 +144,27 @@ export class Register extends React.Component {
 				                className="form-control"
 								onChange={e => this.setPass(e.target.value)}
 								required/>
-				         </div>
+								</div>
+								<div className="form-check form-check-inline mt-4">
+									<input
+										className="form-check-input"
+										type="radio"
+										name="inlineRadioOptions"
+										id="inlineRadio1"
+										value="0"
+										onClick={e => this.setPrivate(e.target.value)}></input>
+									<label className="form-check-label" htmlFor="inlineRadio1">Public Account</label>
+								</div>
+								<div className="form-check form-check-inline">
+									<input
+										className="form-check-input"
+										type="radio"
+										name="inlineRadioOptions"
+										id="inlineRadio2"
+										value="1"
+										onClick={e => this.setPrivate(e.target.value)}></input>
+									<label className="form-check-label" htmlFor="inlineRadio2">Private Account</label>
+								</div>
 
 				         <div id="login-button-container" className="text-center mt-4">
 				             <button

@@ -9,9 +9,22 @@ function error(err) {
 
 export class Books{
 
-    postBook(book) {
+    postBook(book, ISBN) {
         return new Promise((resolve, reject) => {
-            axios.post(hostname + '/api/:ISBN/', { ...book })
+            axios.post(`${hostname}/api/${ISBN}/`, { ...book })
+                .then(response => {
+                    resolve(response.data);
+                })
+                .catch(err => {
+                    error(err);
+                    resolve(undefined);
+                });
+        });
+    }
+
+    addWishlist(ISBN, userID) {
+        return new Promise((resolve, reject) => {
+            axios.post(`${hostname}/api/wishlist/${ISBN}?user=${userID}`)
                 .then(response => {
                     resolve(response.data);
                 })
@@ -62,7 +75,7 @@ export class Books{
     }
 
     deleteBook(id) {
-	return new Promise((resolve, reject) => {
+	     return new Promise((resolve, reject) => {
             axios.delete(`${hostname}/api/books/${id}`)
                 .then(response => {
                     resolve(response.data);
