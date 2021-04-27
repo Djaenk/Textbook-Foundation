@@ -63,7 +63,7 @@ export class Register extends React.Component {
 
 	setPrivate(z) {
 		this.setState(s => {
-			s.password = z;
+			s.private = z;
 			return s;
 		});
 	}
