@@ -10,7 +10,7 @@ export const AllBooksTable = props => {
 	const [favoritesOnly, setFavoritesOnly] = React.useState(false);
 	const [page, setPage] = React.useState(0);
 	const [perPage, setPerPage] = React.useState(25);
-	const [search, setSearch] = React.useState('')
+	const [search, setSearch] = React.useState('');
 
 	useEffect(() => {
 		const booksRepository = new Books();
@@ -31,7 +31,7 @@ export const AllBooksTable = props => {
 			}
 			setBooks(value.books);
 		});
-	});
+	}, [search]);
 
 	function handleSearch(){
 		let bookSearch = [];
@@ -46,7 +46,6 @@ export const AllBooksTable = props => {
 				bookSearch.push(book)
 			}
 		}
-		console.log(bookSearch);
 		setBooks(bookSearch);
 		setPage(0);
 	}
@@ -63,6 +62,7 @@ export const AllBooksTable = props => {
 
 	return <>
 		<h3 className="text-left mx-3">All Books</h3>
+		
 		<div className="row">
 			<form className="form-inline col">
 				<div className="input-group m-3">
@@ -76,6 +76,7 @@ export const AllBooksTable = props => {
 					<label htmlFor="favorites-toggle" className="form-check-label">Favorites only</label>
 				</div>
 			</form>
+			
 			<nav className="px-3" aria-label="table pages">
 				<ul className="pagination m-3">
 					<li className="page-item disabled"><button type="button" className="page-link">Books per page</button></li>
@@ -108,6 +109,7 @@ export const AllBooksTable = props => {
 						[1,2,3,4,5].map(x => x > book.rating ? "" : <StarFill key={x}/>)}</td>
 					</tr>
 				)}
+				<tr><td colSpan="4"><p>Don't see a book you're looking for? <Link to="/wishlist">Add it to your Wishlist</Link></p></td></tr>
 			</tbody>
 		</table>
 		<nav className="d-flex justify-content-center" aria-label="table pages">

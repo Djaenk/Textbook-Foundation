@@ -100,9 +100,9 @@ export class Accounts {
         })
     }
 
-    getWishlist(id) {
+    getWishlist(userID) {
         return new Promise((resolve,reject)=>{
-            axios.get(hostname + '/api/wishlist/' + id)
+            axios.get(`${hostname}/api/wishlist?userID=${userID}`)
             .then(response => {
                 resolve(response.data)
             })

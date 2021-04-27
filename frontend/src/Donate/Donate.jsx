@@ -41,7 +41,7 @@ export const Donate = props =>
           <input type="text" className="form-control" id="publicationDate" placeholder="Date (numbers only)"/>
         </div>
         <div className="form-group">
-          <label for="exampleFormControlSelect1">Condition</label>
+          <label htmlFor="exampleFormControlSelect1">Condition</label>
           <select className="form-control" id="exampleFormControlSelect1">
 						<option hidden>-</option>
             <option>Excellent</option>

@@ -30,8 +30,8 @@ export const BookTable = props => {
 				</tr>
 			</thead>
 			<tbody>
-				{books.map(book =>
-					<tr key={book.bookID}>
+				{books.map((book, index) =>
+					<tr key={index}>
 						<td className={book.favorite ? "star" : ""}><Link to={ '/books/' + book.bookID } >{book.Title}</Link></td>
 						<td>{book.ISBN}</td>
 						<td>{book.status}</td>

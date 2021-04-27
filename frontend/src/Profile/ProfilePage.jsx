@@ -11,26 +11,27 @@ import { BookTable } from '../Home/BookTable';
 
 export const ProfilePage = props =>{
 	const {id} = props.match.params;
-	const booksRespository = new Books();
+	const booksRepository = new Books();
 	const accountsRepository = new Accounts();
 
 	return <>
 		<Navigation/>
 		<div className="container mt-3">
-
 			<div className="row">
-				<div className="col-md-4">
-					<ProfileInfo heading="Profile Information" profilePromise={accountsRepository.getProfile(id)}/>
-					{id === sessionStorage.userId && <Link to='/profile/edit' >Edit your account... </Link>}
+				<div className="col-lg-4">
+					<ProfileInfo heading="Profile Information" profilePromise={accountsRepository.getProfile(id)}/><br/>
+					{id === sessionStorage.userId && <Link to='/profile/edit' ><button type="button" className="btn btn-primary">Edit your Account</button></Link>}
 				</div>
-				<div className="col-md-8">
+				<div className="col-lg-8">
 					{/* <DonatedBooks heading="Donated Books" booksPromise={booksRespository.getDonations(sessionStorage.userId)}/> */}
-					<BookTable heading="Donated Books" booksPromise={booksRespository.getDonations(id)}/>				
+					<BookTable heading="Donated Books" booksPromise={booksRepository.getDonations(id)}/>				
 					<div className="line"></div>
 					{/* <BorrowedBooks heading="Borrowed Books" booksPromise={booksRespository.getBorrows(sessionStorage.userId)}/> */}
-					<BookTable heading="Borrowed Books" booksPromise={booksRespository.getBorrows(id)}/>
+					<BookTable heading="Borrowed Books" booksPromise={booksRepository.getBorrows(id)}/>
 					<div className="line"></div>
-					<BookTable heading="Favorited Books" booksPromise={booksRespository.getFavorites(id)}/>
+					<BookTable heading="Favorited Books" booksPromise={booksRepository.getFavorites(id)}/>
+					<div className="line"></div>
+					<BookTable heading="Wishlist" booksPromise={accountsRepository.getWishlist(id)}/>
 				</div>
 			</div>
 		</div>

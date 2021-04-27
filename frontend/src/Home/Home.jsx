@@ -3,6 +3,7 @@ import { Navigation } from '../app/Navigation';
 import { BookTable } from './BookTable';
 import { AllBooksTable } from './AllBooksTable';
 import Books from '../api/books';
+import { Link } from 'react-router-dom';
 
 export const Home = props => {
 	const booksRespository = new Books();
