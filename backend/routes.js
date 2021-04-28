@@ -323,7 +323,6 @@ module.exports = function routes(app, logger) {
     });
   });
 
-  // NOT WORKING
   // GET books by ISBN that have more than certain count
   // /api/books/excess?quantity={quantity}
   app.get('/api/books/excess', (req, res) => {
@@ -336,7 +335,7 @@ module.exports = function routes(app, logger) {
         res.status(400).send('Problem obtaining MySQL connection');
       } else {
         // if there is no issue obtaining a connection, execute query and release connection
-        connection.query('select * from books where COUNT(ISBN) > (?)', quantity, function (err, rows, fields) {
+        connection.query('select * from books where ISBN IN (select ISBN from books GROUP BY ISBN HAVING COUNT(ISBN) > (?))', quantity, function (err, rows, fields) {
           connection.release();
           if (err) {
             // if there is an error with the query, log the error
